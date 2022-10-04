@@ -1,18 +1,20 @@
 vim.opt.relativenumber = true
-vim.opt.scrolloff = 50
-vim.opt.cmdheight = 1
+vim.opt.scrolloff = 10
+vim.opt.cmdheight = 0
+vim.wo.foldlevel = 99
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 lvim.transparent_window = true
+lvim.lsp.diagnostics.virtual_text = false
 
 lvim.leader = "space"
-
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
-lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
-
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<cr>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<cr>"
+lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.which_key.mappings["dT"] = { "<cmd>lua require'dapui'.toggle({ reset = true })<cr>", "Toggle UI" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
@@ -29,6 +31,7 @@ lvim.builtin.which_key.mappings["r"] = {
   a = { "<cmd>RustCodeAction<cr>", "Code" },
   d = { "<cmd>RustDebuggables<cr>", "Debug" },
   h = { "<cmd>RustHoverActions<cr>", "Hover" },
+  r = { "<cmd>RustRunnables<cr>", "Run" }
 }
 
 lvim.builtin.dap.active = true
@@ -59,18 +62,25 @@ lvim.plugins = {
     cmd = "Trouble",
   },
   {
-    "tzachar/cmp-tabnine",
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
     config = function()
-      local tabnine = require "cmp_tabnine.config"
-      tabnine:setup {
-        max_lines = 1000,
-        max_num_results = 20,
-        sort = true
-      }
-    end,
-    run = './install.sh',
-    requires = 'hrsh7th/nvim-cmp'
+      require("todo-comments").setup()
+    end
   },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require('leap').set_default_keymaps()
+    end
+  },
+  {
+    "karb94/neoscroll.nvim",
+    config = function()
+      require('neoscroll').setup()
+    end
+  },
+  { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   {
     "rcarriga/nvim-dap-ui",
@@ -81,9 +91,9 @@ lvim.plugins = {
   {
     "simrat39/rust-tools.nvim",
     config = function()
-      local extension_path = vim.fn.stdpath 'data' .. '/mason/packages/codelldb/extension/'
-      local codelldb_path = extension_path .. 'adapter/codelldb'
-      local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
+      local extension_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension/"
+      local codelldb_path = extension_path .. "adapter/codelldb"
+      local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
 
       local opts = {
         dap = {
@@ -105,8 +115,8 @@ lvim.plugins = {
             auto = true,
             only_current_line = false,
             show_parameter_hints = true,
-            parameter_hints_prefix = " ",
-            other_hints_prefix = " => ",
+            parameter_hints_prefix = "",
+            other_hints_prefix = "=> ",
             max_len_align = false,
             max_len_align_padding = 1,
             right_align = false,
@@ -134,7 +144,7 @@ lvim.plugins = {
           on_init = require("lvim.lsp").common_on_init,
           on_attach = require("lvim.lsp").common_on_attach,
           settings = {
-            ['rust-analyzer'] = {
+            ["rust-analyzer"] = {
               imports = {
                 granularity = {
                   group = "module",
@@ -164,59 +174,60 @@ lvim.plugins = {
     ft = { "rust", "rs" },
   }
 }
-
--- Debug Adapter Protocols
-
+---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
-local dap = require("dap");
-local dap_vt = require("nvim-dap-virtual-text");
-local dap_ts = require("telescope");
-local dap_ui = require("dapui");
+-- Debug Adapter Protocols
+lvim.builtin.dap.on_config_done = function(dap)
+  local vt = require("nvim-dap-virtual-text");
+  local ui = require("dapui");
 
-dap_vt.setup { commented = true }
+  dap.listeners.after.event_initialized["dapui_config"] = function()
+    ui.open()
+  end
+  dap.listeners.before.event_terminated["dapui_config"] = function()
+    ui.close()
+  end
+  dap.listeners.before.event_exited["dapui_config"] = function()
+    ui.close()
+  end
 
-dap_ts.load_extension("dap");
+  vt.setup { commented = true }
 
-dap_ui.setup({
-  layouts = {
-    {
-      elements = {
-        "scopes",
-        "breakpoints",
-        "stacks",
-        "watches",
+  ui.setup({
+    layouts = {
+      {
+        elements = {
+          "scopes",
+          "breakpoints",
+          "stacks",
+          "watches",
+        },
+        size = 50,
+        position = "left",
       },
-      size = 50,
-      position = "left",
-    },
-    {
-      elements = {
-        "repl",
+      {
+        elements = {
+          "repl",
+        },
+        size = 0.25,
+        position = "bottom",
       },
-      size = 0.25,
-      position = "bottom",
     },
-  },
-})
+  })
 
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  dap_ui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  dap_ui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dap_ui.close()
+  dap.configurations.rust = {
+    {
+      name = "Debug",
+      type = "rt_lldb",
+      request = "launch",
+      program = "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+      cwd = "${workspaceFolder}",
+      console = "internalConsole"
+    },
+  }
 end
 
-dap.configurations.rust = {
-  {
-    name = "Debug",
-    type = "rt_lldb",
-    request = "launch",
-    program = "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
-    cwd = "${workspaceFolder}",
-    console = "internalConsole"
-  },
-}
+lvim.builtin.telescope.on_config_done = function(telescope)
+  pcall(telescope.load_extension, "dap")
+end
