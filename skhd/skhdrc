@@ -1,0 +1,77 @@
+#!/usr/bin/env sh
+
+fn - h : \
+  current=$(yabai -m query --spaces --space | jq -re '.index') \
+  && last=$(yabai -m query --spaces | jq -re '.[-1].index') \
+  && target=$([[ "$current" == "$last" ]] \
+     && echo 1 \
+     || echo $(($current + 1))) \
+  && yabai -m query --spaces --space $target | jq -re '."first-window"' \
+  | xargs yabai -m window --focus
+fn - j : yabai -m window --focus prev || yabai -m window --focus last
+fn - k : yabai -m window --focus next || yabai -m window --focus first
+fn - l : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+
+fn + cmd - h : yabai -m window --swap west
+fn + cmd - j : yabai -m window --swap south
+fn + cmd - k : yabai -m window --swap north
+fn + cmd - l : yabai -m window --swap east
+
+fn + alt - h : yabai -m window --warp west
+fn + alt - j : yabai -m window --warp south
+fn + alt - k : yabai -m window --warp north
+fn + alt - l : yabai -m window --warp east
+
+fn + ctrl - h : yabai -m window --stack west
+fn + ctrl - j : yabai -m window --stack south
+fn + ctrl - k : yabai -m window --stack north
+fn + ctrl - l : yabai -m window --stack east
+
+fn + shift - h : \
+  yabai -m window --resize left:-20:0; \
+  yabai -m window --resize right:-20:0
+fn + shift - j : \
+  yabai -m window --resize bottom:0:20; \
+  yabai -m window --resize top:0:20
+fn + shift - k : \
+  yabai -m window --resize top:0:-20; \
+  yabai -m window --resize bottom:0:-20
+fn + shift - l : \
+  yabai -m window --resize right:20:0; \
+  yabai -m window --resize left:20:0
+
+fn - q : yabai -m window --close
+fn - s : yabai -m window --toggle split
+fn - f : \
+  yabai -m window --toggle zoom-fullscreen \
+  && yabai -m window --toggle border \
+  && yabai -m space --toggle padding \
+  && yabai -m space --toggle gap
+
+fn - n : yabai -m window --space next
+fn - p : yabai -m window --space prev
+
+fn - x : yabai -m space --mirror x-axis
+fn - y : yabai -m space --mirror y-axis
+
+fn - r : yabai -m space --rotate 270
+fn + shift - r : yabai -m space --rotate 90
+
+fn - b : yabai -m window --toggle border
+fn - g : yabai -m space --toggle gap && yabai -m space --toggle padding
+
+fn + shift - b : yabai -m space --balance
+fn + shift - f : yabai -m window --toggle native-fullscreen
+fn + shift - q : brew services restart yabai && brew services restart skhd
+
+fn - o : open ~/
+fn - i : open -a iTerm
+fn - c : open -a Google\ Chrome
+fn - d : open -a Discord
+fn - t : open -a Telegram
+
+fn + shift - o : open -n ~/
+fn + shift - i : open -na iTerm
+fn + shift - c : open -na Google\ Chrome
+fn + shift - d : open -na Discord
+fn + shift - t : opne -na Telegram
