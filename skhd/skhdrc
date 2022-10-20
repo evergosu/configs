@@ -1,16 +1,15 @@
 #!/usr/bin/env sh
 
 fn - h : \
-  current=$(yabai -m query --spaces --space | jq -re '.index') \
-  && last=$(yabai -m query --spaces | jq -re '.[-1].index') \
-  && target=$([[ "$current" == "$last" ]] \
-     && echo 1 \
-     || echo $(($current + 1))) \
-  && yabai -m query --spaces --space $target | jq -re '."first-window"' \
+  yabai -m query --spaces --display \
+  | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index - 1))."first-window") // (last | ."first-window")' \
   | xargs yabai -m window --focus
-fn - j : yabai -m window --focus prev || yabai -m window --focus last
-fn - k : yabai -m window --focus next || yabai -m window --focus first
-fn - l : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+fn - j : yabai -m window --focus next || yabai -m window --focus first
+fn - k : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+fn - l : \
+  yabai -m query --spaces --display \
+  | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index + 1))."first-window") // (first | ."first-window")' \
+  | xargs yabai -m window --focus
 
 fn + cmd - h : yabai -m window --swap west
 fn + cmd - j : yabai -m window --swap south
