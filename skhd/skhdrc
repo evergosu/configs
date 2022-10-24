@@ -65,7 +65,6 @@ fn + shift - q : brew services restart yabai && brew services restart skhd
 
 fn - o : open ~/
 fn - i : open -a iTerm
-fn - c : open -a Google\ Chrome
 fn - d : open -a Discord
 fn - t : open -a Telegram
 
@@ -74,3 +73,40 @@ fn + shift - i : open -na iTerm
 fn + shift - c : open -na Google\ Chrome
 fn + shift - d : open -na Discord
 fn + shift - t : opne -na Telegram
+
+:: default : yabai -m config active_window_border_color 0xFFA3BE8C
+:: mode_chrome : yabai -m config active_window_border_color 0xFFEBCB8B
+
+default < fn - 1 ; mode_chrome
+mode_chrome < fn - c ; default
+mode_chrome < fn - j ; default
+mode_chrome < escape ; default
+
+default < fn - c [
+  "Google Chrome" : skhd -k "fn - 1"
+  * : open -a Google\ Chrome
+]
+
+mode_chrome < j [
+  "Google Chrome" : skhd -k "down"
+]
+
+mode_chrome < k [
+  "Google Chrome" : skhd -k "up"
+]
+
+mode_chrome < l [
+  "Google Chrome" : skhd -k "ctrl - tab"
+]
+
+mode_chrome < h [
+  "Google Chrome" : skhd -k "ctrl + shift - tab"
+]
+
+mode_chrome < shift - l [
+  "Google Chrome" : skhd -k "ctrl + shift - pagedown"
+]
+
+mode_chrome < shift - h [
+  "Google Chrome" : skhd -k "ctrl + shift - pageup"
+]
