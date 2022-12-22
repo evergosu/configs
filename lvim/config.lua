@@ -1,26 +1,34 @@
 vim.opt.relativenumber = true
-vim.opt.scrolloff = 10
 vim.opt.cmdheight = 0
+vim.opt.scrolloff = 10
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 vim.wo.foldlevel = 99
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 lvim.log.level = "warn"
-lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 lvim.transparent_window = true
 lvim.lsp.diagnostics.virtual_text = false
+lvim.format_on_save = {
+  enabled = true,
+  timeout = 1000,
+  pattern = {
+    "*.lua",
+    "*.rs"
+  },
+}
 
 lvim.leader = "space"
-lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<cr>"
-lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<cr>"
+lvim.keys.normal_mode["<s-l>"] = ":BufferLineCycleNext<cr>"
+lvim.keys.normal_mode["<s-h>"] = ":BufferLineCyclePrev<cr>"
 lvim.builtin.terminal.open_mapping = "<c-t>"
-lvim.builtin.which_key.mappings["dT"] = { "<cmd>lua require'dapui'.toggle({ reset = true })<cr>", "Toggle UI" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
   name = "Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
-  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+  f = { "<cmd>Trouble lsp_definitioas<cr>", "Definitions" },
   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
@@ -37,23 +45,12 @@ lvim.builtin.which_key.mappings["r"] = {
 lvim.builtin.dap.active = true
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "javascript",
-  "json",
-  "lua",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "yaml",
-}
+lvim.builtin.treesitter.auto_install = true
 
 -- Additional Plugins
 lvim.plugins = {
@@ -180,41 +177,8 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyz
 -- Debug Adapter Protocols
 lvim.builtin.dap.on_config_done = function(dap)
   local vt = require("nvim-dap-virtual-text");
-  local ui = require("dapui");
-
-  dap.listeners.after.event_initialized["dapui_config"] = function()
-    ui.open()
-  end
-  dap.listeners.before.event_terminated["dapui_config"] = function()
-    ui.close()
-  end
-  dap.listeners.before.event_exited["dapui_config"] = function()
-    ui.close()
-  end
 
   vt.setup { commented = true }
-
-  ui.setup({
-    layouts = {
-      {
-        elements = {
-          "scopes",
-          "breakpoints",
-          "stacks",
-          "watches",
-        },
-        size = 50,
-        position = "left",
-      },
-      {
-        elements = {
-          "repl",
-        },
-        size = 0.25,
-        position = "bottom",
-      },
-    },
-  })
 
   dap.configurations.rust = {
     {
