@@ -1,15 +1,21 @@
 #!/usr/bin/env sh
 
 fn - h : \
-  yabai -m query --spaces --display \
+  (yabai -m query --spaces --display \
   | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index - 1))."first-window") // (last | ."first-window")' \
-  | xargs yabai -m window --focus
-fn - j : yabai -m window --focus next || yabai -m window --focus first
-fn - k : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+  | xargs yabai -m window --focus) \
+  && sketchybar --trigger window_focused
+fn - j : \
+  (yabai -m window --focus next || yabai -m window --focus first) \
+  && sketchybar --trigger window_focused
+fn - k : \
+  (yabai -m window --focus stack.next || yabai -m window --focus stack.first) \
+  && sketchybar --trigger window_focused
 fn - l : \
-  yabai -m query --spaces --display \
+  (yabai -m query --spaces --display \
   | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index + 1))."first-window") // (first | ."first-window")' \
-  | xargs yabai -m window --focus
+  | xargs yabai -m window --focus) \
+  && sketchybar --trigger window_focused
 
 fn + cmd - h : yabai -m window --swap west
 fn + cmd - j : yabai -m window --swap south
@@ -48,7 +54,7 @@ fn - f : \
   && yabai -m space --toggle gap
 
 fn - n : yabai -m window --space next
-fn - p : yabai -m window --space prev
+fn - p : yabai -m window --space prev 
 
 fn - x : yabai -m space --mirror x-axis
 fn - y : yabai -m space --mirror y-axis
@@ -61,7 +67,10 @@ fn - g : yabai -m space --toggle gap && yabai -m space --toggle padding
 
 fn + shift - b : yabai -m space --balance
 fn + shift - f : yabai -m window --toggle native-fullscreen
-fn + shift - q : brew services restart yabai && brew services restart skhd
+fn + shift - q : \
+  brew services restart yabai \
+  && brew services restart skhd \
+  && brew services restart sketchybar
 
 fn - o : open ~/
 fn - i : open -a iTerm
@@ -74,8 +83,12 @@ fn + shift - c : open -na Google\ Chrome
 fn + shift - d : open -na Discord
 fn + shift - t : opne -na Telegram
 
-:: default : yabai -m config active_window_border_color 0xFFA3BE8C
-:: mode_chrome : yabai -m config active_window_border_color 0xFFEBCB8B
+fn - space : sketchybar --bar hidden=toggle
+fn + shift - space : sketchybar --exit
+fn + ctrl - space : sketchybar --update 
+
+:: default : yabai -m config active_window_border_color 0xFFA3BE8C; $HOME/.config/sketchybar/scripts/mode.sh normal
+:: mode_chrome @ : yabai -m config active_window_border_color 0xFFEBCB8B; $HOME/.config/sketchybar/scripts/mode.sh chrome
 
 default < fn - 1 ; mode_chrome
 mode_chrome < fn - c ; default
