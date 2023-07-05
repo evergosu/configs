@@ -24,7 +24,7 @@ lvim.leader = "space"
 lvim.keys.normal_mode["<s-l>"] = ":BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["<s-h>"] = ":BufferLineCyclePrev<cr>"
 lvim.builtin.terminal.open_mapping = "<c-t>"
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<cr>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
   name = "Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -41,6 +41,9 @@ lvim.builtin.which_key.mappings["r"] = {
   h = { "<cmd>RustHoverActions<cr>", "Hover" },
   r = { "<cmd>RustRunnables<cr>", "Run" }
 }
+
+lvim.keys.normal_mode["<c-a>"] = ":DialIncrement<cr>"
+lvim.keys.normal_mode["<c-x>"] = ":DialDecrement<cr>"
 
 lvim.builtin.dap.active = true
 lvim.builtin.alpha.active = true
@@ -77,8 +80,39 @@ lvim.plugins = {
       require('neoscroll').setup()
     end
   },
+  { "lilydjwg/colorizer" },
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
+  {
+    "monaqa/dial.nvim",
+    config = function()
+      local augend = require("dial.augend")
+      require("dial.config").augends:register_group {
+        default = {
+          augend.semver.alias.semver,
+          augend.integer.alias.decimal,
+          augend.integer.alias.hex,
+          augend.date.alias["%d/%m/%Y"],
+          augend.constant.alias.bool,
+          augend.constant.new {
+            elements = { "let", "const" },
+            word = true,
+            cyclic = true,
+          },
+          augend.constant.new {
+            elements = { "on", "off" },
+            word = true,
+            cyclic = true,
+          },
+          augend.constant.new {
+            elements = { "&&", "||" },
+            word = false,
+            cyclic = true,
+          },
+        },
+      }
+    end
+  },
   {
     "rcarriga/nvim-dap-ui",
     requires = { "mfussenegger/nvim-dap" },
