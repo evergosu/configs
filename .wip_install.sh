@@ -28,6 +28,7 @@ brew install nnn
 brew install mas
 brew install jq
 brew install gh
+brew install stylua
 brew install dooit --HEAD
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
