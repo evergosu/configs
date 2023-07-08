@@ -68,9 +68,9 @@ fn - g : yabai -m space --toggle gap && yabai -m space --toggle padding
 fn + shift - b : yabai -m space --balance
 fn + shift - f : yabai -m window --toggle native-fullscreen
 fn + shift - q : \
-  brew services restart yabai \
-  && brew services restart skhd \
-  && brew services restart sketchybar
+  brew services restart sketchybar \
+  && yabai --restart-service \
+  && skhd --restart-service
 
 fn - o : open ~/
 fn - i : open -a iTerm
