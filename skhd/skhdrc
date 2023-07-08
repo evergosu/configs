@@ -73,12 +73,12 @@ fn + shift - q : \
   && skhd --restart-service
 
 fn - o : open ~/
-fn - i : open -a iTerm
+fn - w : open -a WezTerm
 fn - d : open -a Discord
 fn - t : open -a Telegram
 
 fn + shift - o : open -n ~/
-fn + shift - i : open -na iTerm
+fn + shift - w : open -na WezTerm
 fn + shift - c : open -na Google\ Chrome
 fn + shift - d : open -na Discord
 fn + shift - t : opne -na Telegram
