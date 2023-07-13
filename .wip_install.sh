@@ -46,7 +46,7 @@ curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v1.0.
 source $HOME/.zshrc
 
 echo "Installing Mac App Store apps..."
-mas install 1451685025 # Wireguard
+mas install 1451685025 # WireguarD
 
 echo "Changing MacOS defaults..."
 defaults write com.apple.dock autohide -bool true
@@ -71,3 +71,8 @@ echo "Starting Services (please, grant permissions)..."
 brew services start skhd
 brew services start yabai
 brew services start sketchybar
+
+# neovim
+sudo chown -R $USER ~/.local/share/nvim
+sudo chown -R $USER ~/.cache/nvim
+sudo chown -R $USER ~/.config/
