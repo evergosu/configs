@@ -2,6 +2,12 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('custom_' .. name, { clear = true })
 end
 
+-- Makes sure that any opened buffer which is contained in a git repo will be tracked.
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = augroup('track_repos'),
+  command = ':lua require("lazygit.utils").project_root_dir()',
+})
+
 -- Check if any buffers were changed outside of Vim.
 vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   group = augroup('checktime'),
