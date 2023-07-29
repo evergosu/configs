@@ -12,9 +12,9 @@ return {
       'j-hui/fidget.nvim',
       event = "LspAttach",
       tag = 'legacy',
-      opts = {},
+      config = true,
     },
-    'folke/neodev.nvim',
+    { 'folke/neodev.nvim', config = true },
   },
   ---@class PluginLspOpts
   opts = {
