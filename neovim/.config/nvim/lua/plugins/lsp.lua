@@ -1,13 +1,9 @@
 return {
   'neovim/nvim-lspconfig',
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    { 'williamboman/mason.nvim', config = true },
-    {
-      'williamboman/mason-lspconfig.nvim',
-      opts = {
-        ensure_installed = { "lua_ls" },
-      },
-    },
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
     {
       'j-hui/fidget.nvim',
       event = "LspAttach",
