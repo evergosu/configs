@@ -12,7 +12,7 @@ set fzf_directory_opts --bind 'ctrl-o:execute($EDITOR {} &> /dev/tty)'
 fish_vi_key_bindings
 
 function ls --wraps exa --description 'calls exa with bunch of default params'
-  exa --long --icons --color=always --all --group-directories-first --git $argv
+  exa --long --icons --color=always --all --group-directories-first --git --ignore-glob='.git' $argv
 end
 
 function tree --wraps exa --description 'calls tree version of exa'
