@@ -20,4 +20,9 @@ function tree --wraps exa --description 'calls tree version of exa'
   ls --tree $argv
 end
 
+function update --wraps brew --description 'update brew and sketchybar widget'
+  brew update; brew upgrade; brew cleanup
+  sketchybar --trigger brew_update
+end
+
 starship init fish | source
