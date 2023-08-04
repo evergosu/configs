@@ -28,7 +28,7 @@ map('v', '>', '>gv')
 
 -- Clear search with <esc>.
 map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
-map('n', '<leader>h', ':h <c-r><c-w><cr>', { desc = 'Help' })
+map('n', '<leader>?', ':h <c-r><c-w><cr>', { desc = 'Help' })
 
 -- Clear search, diff update and redraw.
 map(
