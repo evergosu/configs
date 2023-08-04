@@ -10,8 +10,8 @@ return {
     'rafamadriz/friendly-snippets',
   },
   opts = function()
-    local luasnip = require 'luasnip'
-    local cmp = require'cmp'
+    local luasnip = require('luasnip')
+    local cmp = require('cmp')
 
     cmp.setup({
       snippet = {
@@ -31,10 +31,10 @@ return {
         ['<C-e>'] = cmp.mapping.abort(),
         -- C-b (back) C-f (forward) for snippet placeholder navigation.
         ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm {
+        ['<CR>'] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
-        },
+        }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -59,23 +59,23 @@ return {
         { name = 'luasnip' },
       }, {
         { name = 'buffer' },
-      })
+      }),
     })
 
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
-        { name = 'buffer' }
-      }
+        { name = 'buffer' },
+      },
     })
 
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
-        { name = 'path' }
+        { name = 'path' },
       }, {
-        { name = 'cmdline' }
-      })
+        { name = 'cmdline' },
+      }),
     })
 
     -- Set up lspconfig.
@@ -85,10 +85,10 @@ return {
     -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
     local servers = { 'lua_ls' }
     for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup {
+      lspconfig[lsp].setup({
         -- on_attach = my_custom_on_attach,
         capabilities = capabilities,
-      }
+      })
     end
   end,
 }
