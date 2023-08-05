@@ -9,27 +9,31 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
   },
-  opts = function()
+  config = function()
+    require('luasnip.loaders.from_vscode').lazy_load()
+
     local luasnip = require('luasnip')
     local cmp = require('cmp')
 
     cmp.setup({
+      completion = { completeopt = 'menu,menuone,noinsert' },
+      experimental = { ghost_text = true },
       snippet = {
         expand = function(args)
           require('luasnip').lsp_expand(args.body)
         end,
       },
-
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
 
       mapping = cmp.mapping.preset.insert({
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-        ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+        ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.abort(),
-        -- C-b (back) C-f (forward) for snippet placeholder navigation.
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<CR>'] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Replace,
@@ -59,9 +63,9 @@ return {
         { name = 'luasnip' },
       }, {
         { name = 'buffer' },
+        { name = 'path' },
       }),
     })
-
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
@@ -77,18 +81,5 @@ return {
         { name = 'cmdline' },
       }),
     })
-
-    -- Set up lspconfig.
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local lspconfig = require('lspconfig')
-
-    -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-    local servers = { 'lua_ls' }
-    for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup({
-        -- on_attach = my_custom_on_attach,
-        capabilities = capabilities,
-      })
-    end
   end,
 }

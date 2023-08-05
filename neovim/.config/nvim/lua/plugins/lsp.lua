@@ -3,10 +3,6 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr })
   end
 
-  -- Enable completion triggered by <c-x><c-o>
-  -- TODO: vim.api.nvim_command('inoremap <C-space> <C-x><C-o>')
-  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
   bufmap('gD', vim.lsp.buf.declaration)
   bufmap('gd', vim.lsp.buf.definition)
   bufmap('gi', vim.lsp.buf.implementation)
