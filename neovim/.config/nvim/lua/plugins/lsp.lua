@@ -1,20 +1,22 @@
-local on_attach = function(_, bufnr)
-  local bufmap = function(keys, func)
-    vim.keymap.set('n', keys, func, { buffer = bufnr })
+local function on_attach(_, bufnr)
+  local function bufmap(keys, func, desc)
+    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  bufmap('gD', vim.lsp.buf.declaration)
-  bufmap('gd', vim.lsp.buf.definition)
-  bufmap('gi', vim.lsp.buf.implementation)
-  bufmap('gt', vim.lsp.buf.type_definition)
-  bufmap('K', vim.lsp.buf.hover)
-  bufmap('<C-k>', vim.lsp.buf.signature_help)
-  bufmap('<space>rn', vim.lsp.buf.rename)
-  bufmap('<space>ca', vim.lsp.buf.code_action)
+  local TB = require('telescope.builtin')
 
-  bufmap('gr', require('telescope.builtin').lsp_references)
-  bufmap('gs', require('telescope.builtin').lsp_document_symbols)
-  bufmap('gS', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+  bufmap('K', vim.lsp.buf.hover, '[K]eyword hover')
+  bufmap('<C-k>', vim.lsp.buf.signature_help, '[K]eyword signature help')
+  bufmap('<space>lr', vim.lsp.buf.rename, '[L]sp: [R]ename')
+  bufmap('<space>la', vim.lsp.buf.code_action, '[L]sp: code [A]ction')
+  bufmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+  bufmap('gr', TB.lsp_references, '[G]oto [R]eferences')
+  bufmap('gd', TB.lsp_definitions, '[G]oto [D]efinitions')
+  bufmap('gi', TB.lsp_implementations, '[G]oto [I]mplementations')
+  bufmap('gt', TB.lsp_type_definitions, '[G]oto [T]ype definitions')
+  bufmap('gs', TB.lsp_document_symbols, '[G]oto document [S]ymbols')
+  bufmap('gS', TB.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
 end
 
 return {
@@ -35,11 +37,6 @@ return {
       'folke/neodev.nvim',
     },
     config = function()
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-      vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-      vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 

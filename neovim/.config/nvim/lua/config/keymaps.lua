@@ -7,10 +7,6 @@ map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 map('i', 'kj', '<esc>', { silent = true })
 
 -- TODO: Temporary file actions.
-map('n', '<leader>qq', '<cmd>qa<cr>', { desc = '[Q]uit all' })
-map('n', '<leader>fn', '<cmd>enew<cr>', { desc = '[F]ile [N]ew' })
-map('n', '<leader>fw', '<cmd>write<cr>', { desc = '[F]ile [W]rite' })
-map('n', '<leader>fq', '<cmd>q!<cr>', { desc = '[F]ile [Q]uit' })
 map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 map('n', '<leader>ui', vim.show_pos, { desc = 'Inspect Pos' })
 
@@ -80,7 +76,7 @@ map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result
 map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
 
 -- Lazy package manager.
-map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = '[L]azy plugin manager' })
 
 -- Buffers.
 map('n', '<S-h>', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Prev buffer' })
@@ -97,3 +93,10 @@ map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
 map('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
 map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 map('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
+
+-- Diagnostics & navigation.
+map('n', '<leader>ld', vim.diagnostic.open_float, { desc = '[L]ine [D]iagnostic' })
+map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Prev diagnostic' })
+map('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+map('n', '[q', '<cmd>cprevious<cr>', { desc = 'Prev [Q]uickfix item' })
+map('n', ']q', '<cmd>cnext<cr>', { desc = 'Next [Q]uickfix item' })
