@@ -20,6 +20,17 @@ function M.setup()
     spec = { { import = 'plugins' } },
     defaults = { version = false },
     checker = { enabled = true },
+    performance = {
+      cache = {
+        enabled = true,
+      },
+      rtp = {
+        disabled_plugins = {
+          'netrwPlugin',
+          'tutor',
+        },
+      },
+    },
   })
 end
 
