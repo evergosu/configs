@@ -6,6 +6,7 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'JoosepAlviste/nvim-ts-context-commentstring',
     },
     cmd = { 'TSUpdateSync' },
     keys = {
@@ -37,6 +38,9 @@ return {
           scope_incremental = false,
           node_decremental = '<bs>',
         },
+      },
+      context_commentstring = {
+        enable = true,
       },
     },
     ---@param opts TSConfig
