@@ -6,7 +6,7 @@ local function on_attach(_, bufnr)
   local TB = require('telescope.builtin')
 
   bufmap('K', vim.lsp.buf.hover, '[K]eyword hover')
-  bufmap('<C-k>', vim.lsp.buf.signature_help, '[K]eyword signature help')
+  bufmap('<A-k>', vim.lsp.buf.signature_help, '[K]eyword signature help')
   bufmap('<space>lr', vim.lsp.buf.rename, '[L]sp: [R]ename')
   bufmap('<space>la', vim.lsp.buf.code_action, '[L]sp: code [A]ction')
   bufmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -17,6 +17,10 @@ local function on_attach(_, bufnr)
   bufmap('gt', TB.lsp_type_definitions, '[G]oto [T]ype definitions')
   bufmap('gs', TB.lsp_document_symbols, '[G]oto document [S]ymbols')
   bufmap('gS', TB.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
+
+  bufmap('<leader>ld', vim.diagnostic.open_float, '[L]ine [D]iagnostic')
+  bufmap('[d', vim.diagnostic.goto_prev, 'Prev [D]iagnostic')
+  bufmap(']d', vim.diagnostic.goto_next, 'Next [D]iagnostic')
 end
 
 return {

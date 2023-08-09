@@ -11,8 +11,16 @@ map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 map('n', '<leader>ui', vim.show_pos, { desc = 'Inspect Pos' })
 
 -- Better copy-paste and deletion.
-map('v', 'p', '"_dP')
-map('n', 'x', '"_x')
+map('n', 'x', '"_x', { desc = 'Delete into void registry' })
+map('v', 'p', '"_dP', { desc = '[P]aste into void registry' })
+map('n', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
+map('v', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
+map('n', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
+map('v', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
+map('n', '<leader>Y', '"+Y', { desc = '[Y]ank into system clipboard' })
+
+-- Replace by word without lsp.
+vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[R]replace word' })
 
 -- Better up/down.
 map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -35,12 +43,8 @@ map(
 )
 
 -- Move lines.
-map('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move down' })
-map('n', '<A-k>', '<cmd>m .-2<cr>==', { desc = 'Move up' })
-map('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
-map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
-map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
-map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
+map('v', '<S-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
+map('v', '<S-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 
 -- Resize window.
 map('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'Increase window height' })
@@ -66,6 +70,10 @@ map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
 map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
 map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
+
+-- Center scrolls.
+map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll [D]own and center' })
+map('n', '<C-u>', '<C-u>zz', { desc = 'Scroll [U]p and center' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
@@ -94,9 +102,8 @@ map('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
 map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 map('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 
--- Diagnostics & navigation.
-map('n', '<leader>ld', vim.diagnostic.open_float, { desc = '[L]ine [D]iagnostic' })
-map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Prev diagnostic' })
-map('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-map('n', '[q', '<cmd>cprevious<cr>', { desc = 'Prev [Q]uickfix item' })
-map('n', ']q', '<cmd>cnext<cr>', { desc = 'Next [Q]uickfix item' })
+-- Quickfix and Loclist navigation.
+map('n', '<C-k>', '<cmd>cnext<cr>zz', { desc = 'Next quickfix item' })
+map('n', '<C-j>', '<cmd>cprev<cr>zz', { desc = 'Prev quickfix item' })
+map('n', '<leader>k', '<cmd>lnext<cr>zz', { desc = 'Next loclist item' })
+map('n', '<leader>j', '<cmd>lprev<cr>zz', { desc = 'Prev loclist item' })
