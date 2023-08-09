@@ -69,12 +69,15 @@ return {
                 completion = {
                   callSnippet = 'Replace',
                 },
-                telemetry = { enable = false },
-                runtime = { version = 'LuaJIT' },
-                diagnostics = { globals = { 'vim' } },
+                telemetry = {
+                  enable = false,
+                },
+                runtime = {
+                  version = 'LuaJIT',
+                },
                 workspace = {
                   checkThirdParty = false,
-                  library = vim.api.nvim_get_runtime_file('', true),
+                  library = { vim.env.VIMRUNTIME },
                 },
               },
             },
