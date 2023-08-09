@@ -2,6 +2,7 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
+      'debugloop/telescope-undo.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-web-devicons',
     },
@@ -12,15 +13,16 @@ return {
 
       return {
         -- stylua: ignore start
-        { '<leader>F',  TB.builtin,         desc = '[F]ind in telescope' },
-        { '<leader>fb', TB.buffers,         desc = '[F]ind in [B]uffers' },
-        { '<leader>ff', TB.find_files,      desc = '[F]ind in [F]iles' },
-        { '<leader>fg', TB.git_files,       desc = '[F]ind in [G]it' },
-        { '<leader>ft', TB.live_grep,       desc = '[F]ind as [T]ext' },
-        { '<leader>fh', TB.help_tags,       desc = '[F]ind in [H]elp' },
-        { '<leader>fd', TB.diagnostics,     desc = '[F]ind in [D]iagnostics' },
-        { '<leader>fl', TB.quickfix,        desc = '[F]ind in Quickfix [L]ist' },
-        { '<leader>fL', TB.quickfixhistory, desc = '[F]ind in Quickfix [L]ists' },
+        { '<leader>F',  TB.builtin,                desc = '[F]ind in telescope' },
+        { '<leader>fb', TB.buffers,                desc = '[F]ind in [B]uffers' },
+        { '<leader>ff', TB.find_files,             desc = '[F]ind in [F]iles' },
+        { '<leader>fg', TB.git_files,              desc = '[F]ind in [G]it' },
+        { '<leader>ft', TB.live_grep,              desc = '[F]ind as [T]ext' },
+        { '<leader>fh', TB.help_tags,              desc = '[F]ind in [H]elp' },
+        { '<leader>fd', TB.diagnostics,            desc = '[F]ind in [D]iagnostics' },
+        { '<leader>fl', TB.quickfix,               desc = '[F]ind in Quickfix [L]ist' },
+        { '<leader>fL', TB.quickfixhistory,        desc = '[F]ind in Quickfix [L]ists' },
+        { '<leader>fu', '<cmd>Telescope undo<cr>', desc = '[F]ind in [U]ndo history' },
         -- stylua: ignore end
       }
     end,
@@ -28,6 +30,7 @@ return {
       local TB = require('telescope.builtin')
       local TA = require('telescope.actions')
       local TLA = require('telescope.actions.layout')
+      local TUA = require('telescope-undo.actions')
 
       return {
         defaults = {
@@ -77,6 +80,20 @@ return {
           },
         },
         extensions = {
+          undo = {
+            side_by_side = true,
+            layout_strategy = 'vertical',
+            layout_config = {
+              preview_height = 0.7,
+            },
+            mappings = {
+              i = {
+                ['<cr>'] = TUA.yank_additions,
+                ['<S-cr>'] = TUA.yank_deletions,
+                ['<C-cr>'] = TUA.restore,
+              },
+            },
+          },
           ['ui-select'] = {
             require('telescope.themes').get_cursor(),
           },
@@ -98,6 +115,12 @@ return {
     end,
     config = function()
       require('telescope').load_extension('fzf')
+    end,
+  },
+  {
+    'debugloop/telescope-undo.nvim',
+    config = function()
+      require('telescope').load_extension('undo')
     end,
   },
 }
