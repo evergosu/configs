@@ -8,24 +8,20 @@ return {
     },
     version = false,
     cmd = 'Telescope',
-    keys = function()
-      local TB = require('telescope.builtin')
-
-      return {
-        -- stylua: ignore start
-        { '<leader>F',  TB.builtin,                desc = '[F]ind in telescope' },
-        { '<leader>fb', TB.buffers,                desc = '[F]ind in [B]uffers' },
-        { '<leader>ff', TB.find_files,             desc = '[F]ind in [F]iles' },
-        { '<leader>fg', TB.git_files,              desc = '[F]ind in [G]it' },
-        { '<leader>ft', TB.live_grep,              desc = '[F]ind as [T]ext' },
-        { '<leader>fh', TB.help_tags,              desc = '[F]ind in [H]elp' },
-        { '<leader>fd', TB.diagnostics,            desc = '[F]ind in [D]iagnostics' },
-        { '<leader>fl', TB.quickfix,               desc = '[F]ind in Quickfix [L]ist' },
-        { '<leader>fL', TB.quickfixhistory,        desc = '[F]ind in Quickfix [L]ists' },
-        { '<leader>fu', '<cmd>Telescope undo<cr>', desc = '[F]ind in [U]ndo history' },
-        -- stylua: ignore end
-      }
-    end,
+    keys = {
+      -- stylua: ignore start
+      { '<leader>F',  '<cmd>Telescope builtin<cr>',         desc = '[F]ind in telescope' },
+      { '<leader>fb', '<cmd>Telescope buffers<cr>',         desc = '[F]ind in [B]uffers' },
+      { '<leader>ff', '<cmd>Telescope find_files<cr>',      desc = '[F]ind in [F]iles' },
+      { '<leader>fg', '<cmd>Telescope git_files<cr>',       desc = '[F]ind in [G]it' },
+      { '<leader>ft', '<cmd>Telescope live_grep<cr>',       desc = '[F]ind as [T]ext' },
+      { '<leader>fh', '<cmd>Telescope help_tags<cr>',       desc = '[F]ind in [H]elp' },
+      { '<leader>fd', '<cmd>Telescope diagnostics<cr>',     desc = '[F]ind in [D]iagnostics' },
+      { '<leader>fu', '<cmd>Telescope undo<cr>',            desc = '[F]ind in [U]ndo history' },
+      { '<leader>fl', '<cmd>Telescope quickfix<cr>',        desc = '[F]ind in Quickfix [L]ist' },
+      { '<leader>fL', '<cmd>Telescope quickfixhistory<cr>', desc = '[F]ind in Quickfix [L]ists' },
+      -- stylua: ignore end
+    },
     opts = function()
       local TB = require('telescope.builtin')
       local TA = require('telescope.actions')
