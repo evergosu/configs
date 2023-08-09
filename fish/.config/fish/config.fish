@@ -10,6 +10,9 @@ set fzf_directory_opts --bind 'ctrl-o:execute($EDITOR {} &> /dev/tty)'
 set fzf_fd_opts --hidden --exclude=.git
 set fzf_preview_dir_cmd ls
 
+set -gx Z_CMD j
+set -gx ZO_METHOD nvim
+
 fish_vi_key_bindings
 
 function ls --wraps exa --description 'calls exa with bunch of default params'
