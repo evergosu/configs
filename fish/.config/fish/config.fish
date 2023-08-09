@@ -20,6 +20,8 @@ function tree --wraps exa --description 'calls tree version of exa'
   ls --tree $argv
 end
 
+set -gx HOMEBREW_BUNDLE_FILE ~/Brewfile
+
 function update --wraps brew --description 'update brew and sketchybar widget'
   brew update; brew upgrade; brew cleanup
   sketchybar --trigger brew_update
