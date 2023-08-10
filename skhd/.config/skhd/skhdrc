@@ -54,7 +54,7 @@ fn - f : \
   && yabai -m space --toggle gap
 
 fn - n : yabai -m window --space next
-fn - p : yabai -m window --space prev 
+fn - p : yabai -m window --space prev
 
 fn - x : yabai -m space --mirror x-axis
 fn - y : yabai -m space --mirror y-axis
@@ -85,7 +85,7 @@ fn + shift - t : opne -na Telegram
 
 fn - space : sketchybar --bar hidden=toggle
 fn + shift - space : sketchybar --exit
-fn + ctrl - space : sketchybar --update 
+fn + ctrl - space : sketchybar --update
 
 :: default : yabai -m config active_window_border_color 0xFFA3BE8C; $HOME/.config/sketchybar/scripts/mode.sh normal
 :: mode_chrome @ : yabai -m config active_window_border_color 0xFFEBCB8B; $HOME/.config/sketchybar/scripts/mode.sh chrome
