@@ -17,7 +17,8 @@ map('n', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
 map('v', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
 map('n', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
 map('v', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
-map('n', '<leader>Y', '"+Y', { desc = '[Y]ank into system clipboard' })
+map('n', '<leader>p', '"+p', { desc = '[P]aste from system clipboard' })
+map('v', '<leader>p', '"+p', { desc = '[P]aste from system clipboard' })
 
 -- Replace by word without lsp.
 vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[R]replace word' })
