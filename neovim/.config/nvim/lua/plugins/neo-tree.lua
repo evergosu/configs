@@ -13,13 +13,13 @@ return {
       function()
         require('neo-tree.command').execute({ toggle = true, dir = vim.loop.cwd() })
       end,
-      desc = '[F]ile [E]xplorer',
+      desc = '[F]ind in [E]xplorer',
       remap = true,
     },
   },
   init = function()
     if vim.fn.argc() == 1 then
-      local stat = vim.loop.fs_stat(vim.fn.argv(0))
+      local stat = vim.loop.fs_stat(tostring(vim.fn.argv(0)))
       if stat and stat.type == 'directory' then
         require('neo-tree')
       end
