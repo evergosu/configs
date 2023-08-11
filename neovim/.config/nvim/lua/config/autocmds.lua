@@ -2,6 +2,16 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('custom_' .. name, { clear = true })
 end
 
+-- Clear commdnd line immediately.
+vim.api.nvim_create_autocmd('CmdlineLeave', {
+  group = augroup('clear_cmdline'),
+  callback = function()
+    vim.defer_fn(function()
+      vim.cmd([[ echon ' ' ]])
+    end, 0)
+  end,
+})
+
 -- Makes sure that any opened buffer which is contained in a git repo will be tracked.
 vim.api.nvim_create_autocmd('BufEnter', {
   group = augroup('track_repos'),
