@@ -24,7 +24,7 @@ return {
               right = 0,
             },
           },
-          { 'filename', path = 1, symbols = { modified = ' ? ', readonly = '', unnamed = '' } },
+          { 'filename', path = 1 },
           {
             'diagnostics',
             symbols = {
@@ -43,16 +43,22 @@ return {
               modified = icons.git.modified,
               removed = icons.git.removed,
             },
+            separator = '',
+          },
+          {
+            require('lazy.status').updates,
+            cond = require('lazy.status').has_updates,
+            separator = '',
           },
         },
         lualine_y = {
-          { 'progress', separator = ' ', padding = { left = 1, right = 0 } },
           { 'location', padding = { left = 0, right = 1 } },
         },
         lualine_z = {
-          function()
-            return '? ' .. os.date('%R')
-          end,
+          {
+            'datetime',
+            style = '%R',
+          },
         },
       },
       extensions = { 'neo-tree', 'lazy' },
