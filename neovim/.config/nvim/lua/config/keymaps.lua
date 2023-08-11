@@ -58,12 +58,6 @@ map('n', '<leader>sv', '<C-w>v', { desc = '[S]plit window - [V]ertically', remap
 map('n', '<leader>sh', '<C-w>s', { desc = '[S]plit window - [H]orizontally', remap = true })
 map('n', '<leader>se', '<C-w>=', { desc = '[S]plit window - [E]qualize', remap = true })
 map('n', '<leader>sc', '<C-w>c', { desc = '[S]plit window - [C]lose', remap = true })
-map(
-  'n',
-  '<leader>sm',
-  "<cmd>lua require('maximize').toggle()<cr>",
-  { desc = '[S]plit window - [M]aximize', remap = true }
-)
 
 -- Move to window.
 map('n', '<leader>ww', '<C-W>p', { desc = 'Other window', remap = true })
