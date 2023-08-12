@@ -73,53 +73,37 @@ fn + shift - q : \
   && skhd --restart-service
 
 fn - o : open ~/
-fn - w : open -a WezTerm
+fn - t : open -a kitty
 fn - d : open -a Discord
-fn - t : open -a Telegram
+fn - m : open -a Telegram
 
 fn + shift - o : open -n ~/
-fn + shift - w : open -na WezTerm
-fn + shift - c : open -na Google\ Chrome
+fn + shift - t : open -na kitty
+fn + shift - c : open -na "Google Chrome"
 fn + shift - d : open -na Discord
-fn + shift - t : opne -na Telegram
+fn + shift - m : open -na Telegram
 
 fn - space : sketchybar --bar hidden=toggle
 fn + shift - space : sketchybar --exit
 fn + ctrl - space : sketchybar --update
 
 :: default : yabai -m config active_window_border_color 0xFFA3BE8C; $HOME/.config/sketchybar/scripts/mode.sh normal
-:: mode_chrome @ : yabai -m config active_window_border_color 0xFFEBCB8B; $HOME/.config/sketchybar/scripts/mode.sh chrome
+:: mode_chrome : open -a "Google Chrome"; yabai -m config active_window_border_color 0xFFEBCB8B; $HOME/.config/sketchybar/scripts/mode.sh chrome
 
-default < fn - 1 ; mode_chrome
-mode_chrome < fn - c ; default
-mode_chrome < fn - j ; default
+default < fn - c ; mode_chrome
+
 mode_chrome < escape ; default
+mode_chrome < fn - c ; default
+mode_chrome < fn - j : skhd -k escape; skhd -k "fn - j"
 
-default < fn - c [
-  "Google Chrome" : skhd -k "fn - 1"
-  * : open -a Google\ Chrome
-]
-
-mode_chrome < j [
-  "Google Chrome" : skhd -k "down"
-]
-
-mode_chrome < k [
-  "Google Chrome" : skhd -k "up"
-]
-
-mode_chrome < l [
-  "Google Chrome" : skhd -k "ctrl - tab"
-]
-
-mode_chrome < h [
-  "Google Chrome" : skhd -k "ctrl + shift - tab"
-]
-
-mode_chrome < shift - l [
-  "Google Chrome" : skhd -k "ctrl + shift - pagedown"
-]
-
-mode_chrome < shift - h [
-  "Google Chrome" : skhd -k "ctrl + shift - pageup"
-]
+# Better navigation.
+mode_chrome < j : skhd -k "down"
+mode_chrome < k : skhd -k "up"
+mode_chrome < shift - j : skhd -k "cmd + alt - down"
+mode_chrome < shift - k : skhd -k "cmd + alt - up"
+# Jump to the next/previous open tab.
+mode_chrome < l : skhd -k "ctrl - tab"
+mode_chrome < h : skhd -k "ctrl + shift - tab"
+# Move tabs right or left.
+mode_chrome < shift - l : skhd -k "ctrl + shift - pagedown"
+mode_chrome < shift - h : skhd -k "ctrl + shift - pageup"
