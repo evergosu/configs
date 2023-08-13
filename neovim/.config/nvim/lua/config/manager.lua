@@ -19,7 +19,10 @@ function M.setup()
   require('lazy').setup({
     spec = { { import = 'plugins' } },
     defaults = { version = false },
-    checker = { enabled = true },
+    checker = {
+      enabled = true,
+      notify = false,
+    },
     performance = {
       cache = {
         enabled = true,
