@@ -1,3 +1,11 @@
+local function buffers_count()
+  local count = #vim.tbl_filter(function(b)
+    return vim.fn.buflisted(b) == 1
+  end, vim.api.nvim_list_bufs())
+
+  return string.rep('', count, ' ')
+end
+
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
@@ -6,25 +14,34 @@ return {
 
     return {
       options = {
-        component_separators = '|',
+        component_separators = '',
         section_separators = { left = '', right = '' },
         globalstatus = true,
         disabled_filetypes = { statusline = { 'alpha' } },
       },
       sections = {
-        lualine_a = { 'mode' },
+        lualine_a = {
+          'mode',
+          {
+            buffers_count,
+            padding = { right = 1 },
+          },
+        },
         lualine_b = { 'branch' },
         lualine_c = {
           {
             'filetype',
             icon_only = true,
-            separator = '',
             padding = {
               left = 1,
               right = 0,
             },
           },
-          { 'filename', path = 1 },
+          {
+            'filename',
+            path = 1,
+            file_status = false,
+          },
           {
             'diagnostics',
             symbols = {
@@ -43,16 +60,14 @@ return {
               modified = icons.git.modified,
               removed = icons.git.removed,
             },
-            separator = '',
           },
           {
             require('lazy.status').updates,
             cond = require('lazy.status').has_updates,
-            separator = '',
           },
         },
         lualine_y = {
-          { 'location', padding = { left = 0, right = 1 } },
+          { 'location', padding = { right = 1 } },
         },
         lualine_z = {
           {
