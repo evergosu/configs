@@ -75,6 +75,7 @@ map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = '[L]azy plugin manager' })
 -- Buffers.
 map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = '[H]op to next buffer' })
 map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'Hop to [L]ast buffer' })
+map('n', '<leader>D', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = '[D]elete all buffers except current' })
 
 -- Tabs.
 map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
