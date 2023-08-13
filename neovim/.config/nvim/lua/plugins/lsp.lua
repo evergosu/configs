@@ -28,7 +28,15 @@ return {
     'j-hui/fidget.nvim',
     event = 'LspAttach',
     tag = 'legacy',
-    config = true,
+    opts = {
+      text = {
+        spinner = 'star',
+        done = '✔',
+        commenced = '',
+        completed = '',
+      },
+      fmt = { task = function() end },
+    },
   },
   {
     'williamboman/mason-lspconfig.nvim',
