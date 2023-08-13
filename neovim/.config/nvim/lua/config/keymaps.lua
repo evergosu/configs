@@ -53,18 +53,9 @@ map('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
 map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
 map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
 
--- Split window.
-map('n', '<leader>sv', '<C-w>v', { desc = '[S]plit window - [V]ertically', remap = true })
-map('n', '<leader>sh', '<C-w>s', { desc = '[S]plit window - [H]orizontally', remap = true })
-map('n', '<leader>se', '<C-w>=', { desc = '[S]plit window - [E]qualize', remap = true })
-map('n', '<leader>sc', '<C-w>c', { desc = '[S]plit window - [C]lose', remap = true })
-
 -- Move to window.
-map('n', '<leader>ww', '<C-W>p', { desc = 'Other window', remap = true })
-map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
-map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
-map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
-map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
+map('n', '<C-h>', '<C-w>w', { desc = '[H]op to next window', remap = true })
+map('n', '<C-l>', '<C-w>p', { desc = '[H]op to [L]ast window', remap = true })
 
 -- Center scrolls.
 map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll [D]own and center' })
@@ -82,12 +73,8 @@ map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result
 map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = '[L]azy plugin manager' })
 
 -- Buffers.
-map('n', '<S-h>', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Prev buffer' })
-map('n', '<S-l>', '<cmd>BufferLineCycleNext<cr>', { desc = 'Next buffer' })
-map('n', '[b', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Prev buffer' })
-map('n', ']b', '<cmd>BufferLineCycleNext<cr>', { desc = 'Next buffer' })
-map('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
-map('n', '<leader>`', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
+map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = '[H]op to next buffer' })
+map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'Hop to [L]ast buffer' })
 
 -- Tabs.
 map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
