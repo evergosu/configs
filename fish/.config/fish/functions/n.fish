@@ -20,9 +20,13 @@ function n --wraps nnn --description 'support nnn quit and change directory'
     stty stop undef
     stty lnext undef
 
+    # Setup plugins
+    set -x NNN_FIFO /tmp/nnn.fifo
+    set -x NNN_PLUG p:preview-tui
+
     # The command function allows one to alias this function to `nnn` without
     # making an infinitely recursive alias
-    command nnn -crodeHUQ $argv
+    command nnn -crodHUGQ $argv
 
     if test -e $NNN_TMPFILE
         source $NNN_TMPFILE
