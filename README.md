@@ -11,5 +11,6 @@ Dotfiles
 Dependencies
 ============
 
-* build and install [eversevka](/_fonts/README.md) font
-* build [nnn](/nnn/README.md) file manager
+* install brew and run ``brew bundle``
+* clone, build and install [eversevka](/_fonts/README.md) font
+* clone and build [nnn](/nnn/README.md) file manager
