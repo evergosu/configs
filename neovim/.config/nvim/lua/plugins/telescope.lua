@@ -10,16 +10,17 @@ return {
     cmd = 'Telescope',
     keys = {
       -- stylua: ignore start
-      { '<leader>F',  '<cmd>Telescope builtin<cr>',         desc = '[F]ind in telescope' },
-      { '<leader>fb', '<cmd>Telescope buffers<cr>',         desc = '[F]ind in [B]uffers' },
-      { '<leader>ff', '<cmd>Telescope find_files<cr>',      desc = '[F]ind in [F]iles' },
-      { '<leader>fg', '<cmd>Telescope git_files<cr>',       desc = '[F]ind in [G]it' },
-      { '<leader>ft', '<cmd>Telescope live_grep<cr>',       desc = '[F]ind as [T]ext' },
-      { '<leader>fh', '<cmd>Telescope help_tags<cr>',       desc = '[F]ind in [H]elp' },
-      { '<leader>fd', '<cmd>Telescope diagnostics<cr>',     desc = '[F]ind in [D]iagnostics' },
-      { '<leader>fu', '<cmd>Telescope undo<cr>',            desc = '[F]ind in [U]ndo history' },
-      { '<leader>fl', '<cmd>Telescope quickfix<cr>',        desc = '[F]ind in Quickfix [L]ist' },
-      { '<leader>fL', '<cmd>Telescope quickfixhistory<cr>', desc = '[F]ind in Quickfix [L]ists' },
+      { '<leader>ft', '<cmd>Telescope builtin<cr>',         desc = 'Telescope' },
+      { '<leader>fb', '<cmd>Telescope buffers<cr>',         desc = 'Buffers' },
+      { '<leader>ff', '<cmd>Telescope find_files<cr>',      desc = 'Files' },
+      { '<leader>fp', '<cmd>Telescope git_files<cr>',       desc = 'Project' },
+      { '<leader>fg', '<cmd>Telescope live_grep<cr>',       desc = 'Grep' },
+      { '<leader>fr', '<cmd>Telescope oldfiles<cr>',        desc = 'Recent' },
+      { '<leader>fh', '<cmd>Telescope help_tags<cr>',       desc = 'Help' },
+      { '<leader>fd', '<cmd>Telescope diagnostics<cr>',     desc = 'Diagnostics' },
+      { '<leader>fu', '<cmd>Telescope undo<cr>',            desc = 'Undo history' },
+      { '<leader>fl', '<cmd>Telescope quickfix<cr>',        desc = 'List quickfix' },
+      { '<leader>fL', '<cmd>Telescope quickfixhistory<cr>', desc = 'List quickfix history' },
       -- stylua: ignore end
     },
     opts = function()
@@ -27,6 +28,11 @@ return {
       local TA = require('telescope.actions')
       local TLA = require('telescope.actions.layout')
       local TUA = require('telescope-undo.actions')
+
+      local wk = require('which-key')
+      wk.register({
+        ['<leader>f'] = { name = 'Find' },
+      })
 
       return {
         defaults = {
@@ -57,7 +63,14 @@ return {
         pickers = {
           builtin = { use_default_opts = true },
           help_tags = { previewer = false, theme = 'dropdown' },
-          live_grep = { previewer = false, theme = 'dropdown' },
+          live_grep = {
+            previewer = false,
+            theme = 'dropdown',
+            additional_args = function()
+              return { '--hidden' }
+            end,
+          },
+          oldfiles = { previewer = false, theme = 'dropdown' },
           diagnostics = { previewer = false, theme = 'dropdown' },
           quickfix = { previewer = false, theme = 'dropdown' },
           quickfixhistory = { previewer = false, theme = 'dropdown' },
