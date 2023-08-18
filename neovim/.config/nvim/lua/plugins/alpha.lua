@@ -21,13 +21,14 @@ return {
     sections.header.val = vim.split(logo, '\n')
 
     sections.buttons.val = {
+      dashboard.button('r', '  Recent files', [[:lua vim.api.nvim_input('<leader>fr') <cr>]]),
       dashboard.button('s', '  Restore session', [[:lua require("persistence").load({last=true}) <cr>]]),
-      dashboard.button('r', '  Recent files', ':Telescope oldfiles <cr>'),
-      dashboard.button('g', '  Find in git', [[:lua vim.api.nvim_input('<leader>fg') <cr>]]),
-      dashboard.button('f', '  Find in files', [[:lua vim.api.nvim_input('<leader>ff') <cr>]]),
-      dashboard.button('t', '  Find as text', [[:lua vim.api.nvim_input('<leader>ft') <cr>]]),
+      dashboard.button('p', '  Project files', [[:lua vim.api.nvim_input('<leader>fp') <cr>]]),
+      dashboard.button('f', '  CWD files', [[:lua vim.api.nvim_input('<leader>ff') <cr>]]),
+      dashboard.button('g', '  Live grep', [[:lua vim.api.nvim_input('<leader>fg') <cr>]]),
       dashboard.button('n', '  New file', ':ene <bar> startinsert <cr>'),
-      dashboard.button('l', '󰒲  Lazy', ':Lazy<cr>'),
+      dashboard.button('l', '  LazyGit', ':LazyGit<cr>'),
+      dashboard.button('L', '󰒲  Lazy', ':Lazy<cr>'),
       dashboard.button('q', '  Quit', ':qa<cr>'),
     }
 
