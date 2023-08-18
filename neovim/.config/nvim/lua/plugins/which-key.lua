@@ -9,5 +9,10 @@ return {
     window = {
       border = 'double',
     },
+    icons = {
+      breadcrumb = '',
+      separator = '',
+      group = '',
+    },
   },
 }
