@@ -16,7 +16,7 @@ return {
           reveal = true,
         })
       end,
-      desc = '[E]xplorer',
+      desc = 'explorer',
       remap = true,
     },
   },

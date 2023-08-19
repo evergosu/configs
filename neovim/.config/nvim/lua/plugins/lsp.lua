@@ -1,26 +1,30 @@
 local function on_attach(_, bufnr)
+  require('which-key').register({
+    ['<leader>l'] = { name = 'lsp' },
+  }, { buffer = bufnr })
+
   local function bufmap(keys, func, desc)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
   local TB = require('telescope.builtin')
 
-  bufmap('K', vim.lsp.buf.hover, '[K]eyword hover')
-  bufmap('<A-k>', vim.lsp.buf.signature_help, '[K]eyword signature help')
-  bufmap('<space>lr', vim.lsp.buf.rename, '[L]sp: [R]ename')
-  bufmap('<space>la', vim.lsp.buf.code_action, '[L]sp: code [A]ction')
-  bufmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+  bufmap('K', vim.lsp.buf.hover, 'keyword hover')
+  bufmap('<A-k>', vim.lsp.buf.signature_help, 'keyword signature help')
+  bufmap('<leader>lr', vim.lsp.buf.rename, 'rename')
+  bufmap('<leader>la', vim.lsp.buf.code_action, 'actions')
+  bufmap('<leader>ld', vim.diagnostic.open_float, 'diagnostic')
 
-  bufmap('gr', TB.lsp_references, '[G]oto [R]eferences')
-  bufmap('gd', TB.lsp_definitions, '[G]oto [D]efinitions')
-  bufmap('gi', TB.lsp_implementations, '[G]oto [I]mplementations')
-  bufmap('gt', TB.lsp_type_definitions, '[G]oto [T]ype definitions')
-  bufmap('gs', TB.lsp_document_symbols, '[G]oto document [S]ymbols')
-  bufmap('gS', TB.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
+  bufmap('gD', vim.lsp.buf.declaration, '[LSP]: declaration')
+  bufmap('gr', TB.lsp_references, '[LSP]: references')
+  bufmap('gd', TB.lsp_definitions, '[LSP]: definitions')
+  bufmap('gi', TB.lsp_implementations, '[LSP]: implementations')
+  bufmap('gt', TB.lsp_type_definitions, '[LSP]: type definitions')
+  bufmap('gs', TB.lsp_document_symbols, '[LSP]: document symbols')
+  bufmap('gS', TB.lsp_dynamic_workspace_symbols, '[LSP]: workspace symbols')
 
-  bufmap('<leader>ld', vim.diagnostic.open_float, '[L]ine [D]iagnostic')
-  bufmap('[d', vim.diagnostic.goto_prev, 'Prev [D]iagnostic')
-  bufmap(']d', vim.diagnostic.goto_next, 'Next [D]iagnostic')
+  bufmap('[d', vim.diagnostic.goto_prev, 'Prev diagnostic')
+  bufmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
 end
 
 return {

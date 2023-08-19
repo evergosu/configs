@@ -1,27 +1,27 @@
 local map = require('config.manager').map
 
 -- Unmap <space> to use as leader key.
-map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+map({ 'n', 'v' }, '<space>', '<nop>', { silent = true })
 
 -- Emulate <esc> with movement.
 map('i', 'kj', '<esc>', { silent = true })
 
 -- TODO: Temporary file actions.
-map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
-map('n', '<leader>ui', vim.show_pos, { desc = 'Inspect Pos' })
+map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'save file' })
+map('n', '<leader>i', vim.show_pos, { desc = 'inspector' })
 
 -- Better copy-paste and deletion.
-map('n', 'x', '"_x', { desc = 'Delete into void registry' })
-map('v', 'p', '"_dP', { desc = '[P]aste into void registry' })
-map('n', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
-map('v', '<leader>d', '"_d', { desc = '[D]elete into void registry' })
-map('n', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
-map('v', '<leader>y', '"+y', { desc = '[Y]ank into system clipboard' })
-map('n', '<leader>p', '"+p', { desc = '[P]aste from system clipboard' })
-map('v', '<leader>p', '"+p', { desc = '[P]aste from system clipboard' })
+map('n', 'x', '"_x', { desc = 'delete into void' })
+map('v', 'p', '"_dP', { desc = 'paste into void' })
+map('n', '<leader>d', '"_d', { desc = 'delete into void' })
+map('v', '<leader>d', '"_d', { desc = 'delete into void' })
+map('n', '<leader>y', '"+y', { desc = 'yank into system' })
+map('v', '<leader>y', '"+y', { desc = 'yank into system' })
+map('n', '<leader>p', '"+p', { desc = 'paste from system' })
+map('v', '<leader>p', '"+p', { desc = 'paste from system' })
 
 -- Replace by word without lsp.
-vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[R]replace word' })
+vim.keymap.set('n', '<leader>sr', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'replace word' })
 
 -- Better up/down.
 map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -32,61 +32,47 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- Clear search with <esc>.
-map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
-map('n', '<leader>?', ':h <c-r><c-w><cr>', { desc = 'Help' })
+map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'escape and clear hlsearch' })
 
 -- Clear search, diff update and redraw.
-map(
-  'n',
-  '<leader>ur',
-  '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>',
-  { desc = 'Redraw / clear hlsearch / diff update' }
-)
+map('n', '<leader>r', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'redraw' })
 
 -- Move lines.
-map('v', '<S-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
-map('v', '<S-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
+map('v', '<S-j>', ":m '>+1<cr>gv=gv", { desc = 'move down' })
+map('v', '<S-k>', ":m '<-2<cr>gv=gv", { desc = 'move up' })
 
 -- Resize window.
-map('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'Increase window height' })
-map('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
-map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
-map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
+map('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'increase window height' })
+map('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'decrease window height' })
+map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'decrease window width' })
+map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'increase window width' })
 
 -- Move to window.
-map('n', '<C-h>', '<C-w>w', { desc = '[H]op to next window', remap = true })
-map('n', '<C-l>', '<C-w>p', { desc = '[H]op to [L]ast window', remap = true })
+map('n', '<C-h>', '<C-w>w', { desc = 'hop to next window', remap = true })
+map('n', '<C-l>', '<C-w>p', { desc = 'hop to last window', remap = true })
 
 -- Center scrolls.
-map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll [D]own and center' })
-map('n', '<C-u>', '<C-u>zz', { desc = 'Scroll [U]p and center' })
+map('n', '<C-d>', '<C-d>zz', { desc = 'scroll down and center' })
+map('n', '<C-u>', '<C-u>zz', { desc = 'scroll up and center' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map('n', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
-map('x', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
-map('o', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
-map('n', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
-map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
-map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
+map('n', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'next search result' })
+map('x', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'next search result' })
+map('o', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'next search result' })
+map('n', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'prev search result' })
+map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'prev search result' })
+map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'prev search result' })
 
--- Lazy package manager.
-map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = '[L]azy plugin manager' })
+-- Lazy plugin manager.
+map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = 'lazy' })
 
 -- Buffers.
-map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = '[H]op to next buffer' })
-map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'Hop to [L]ast buffer' })
-map('n', '<leader>D', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = '[D]elete all buffers except current' })
-
--- Tabs.
-map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
-map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
-map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
-map('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
-map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
-map('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
+map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = 'hop to next buffer' })
+map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'hop to last buffer' })
+map('n', '<leader>c', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = 'close all buffers' })
 
 -- Quickfix and Loclist navigation.
-map('n', '<C-k>', '<cmd>cnext<cr>zz', { desc = 'Next quickfix item' })
-map('n', '<C-j>', '<cmd>cprev<cr>zz', { desc = 'Prev quickfix item' })
-map('n', '<leader>k', '<cmd>lnext<cr>zz', { desc = 'Next loclist item' })
-map('n', '<leader>j', '<cmd>lprev<cr>zz', { desc = 'Prev loclist item' })
+map('n', '<C-j>', '<cmd>cnext<cr>zz', { desc = 'next in quickfix' })
+map('n', '<C-k>', '<cmd>cprev<cr>zz', { desc = 'prev in quickfix' })
+map('n', '<leader>j', '<cmd>lnext<cr>zz', { desc = 'next in loclist' })
+map('n', '<leader>k', '<cmd>lprev<cr>zz', { desc = 'prev in loclist' })

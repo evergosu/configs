@@ -8,31 +8,33 @@ return {
     },
     version = false,
     cmd = 'Telescope',
-    keys = {
-      -- stylua: ignore start
-      { '<leader>ft', '<cmd>Telescope builtin<cr>',         desc = 'Telescope' },
-      { '<leader>fb', '<cmd>Telescope buffers<cr>',         desc = 'Buffers' },
-      { '<leader>ff', '<cmd>Telescope find_files<cr>',      desc = 'Files' },
-      { '<leader>fp', '<cmd>Telescope git_files<cr>',       desc = 'Project' },
-      { '<leader>fg', '<cmd>Telescope live_grep<cr>',       desc = 'Grep' },
-      { '<leader>fr', '<cmd>Telescope oldfiles<cr>',        desc = 'Recent' },
-      { '<leader>fh', '<cmd>Telescope help_tags<cr>',       desc = 'Help' },
-      { '<leader>fd', '<cmd>Telescope diagnostics<cr>',     desc = 'Diagnostics' },
-      { '<leader>fu', '<cmd>Telescope undo<cr>',            desc = 'Undo history' },
-      { '<leader>fl', '<cmd>Telescope quickfix<cr>',        desc = 'List quickfix' },
-      { '<leader>fL', '<cmd>Telescope quickfixhistory<cr>', desc = 'List quickfix history' },
-      -- stylua: ignore end
-    },
+    keys = function()
+      require('which-key').register({
+        ['<leader>f'] = { name = 'find' },
+      })
+
+      return {
+        -- stylua: ignore start
+        { '<leader>ft', '<cmd>Telescope builtin<cr>',         desc = 'telescope' },
+        { '<leader>fb', '<cmd>Telescope buffers<cr>',         desc = 'buffers' },
+        { '<leader>ff', '<cmd>Telescope find_files<cr>',      desc = 'files' },
+        { '<leader>fp', '<cmd>Telescope git_files<cr>',       desc = 'project' },
+        { '<leader>fg', '<cmd>Telescope live_grep<cr>',       desc = 'grep' },
+        { '<leader>fr', '<cmd>Telescope oldfiles<cr>',        desc = 'recent files' },
+        { '<leader>fR', '<cmd>Telescope lazygit<cr>',         desc = 'recent repos' },
+        { '<leader>fh', '<cmd>Telescope help_tags<cr>',       desc = 'help' },
+        { '<leader>fd', '<cmd>Telescope diagnostics<cr>',     desc = 'diagnostics' },
+        { '<leader>fu', '<cmd>Telescope undo<cr>',            desc = 'undo history' },
+        { '<leader>fl', '<cmd>Telescope quickfix<cr>',        desc = 'list quickfix' },
+        { '<leader>fL', '<cmd>Telescope quickfixhistory<cr>', desc = 'list quickfix history' },
+        -- stylua: ignore end
+      }
+    end,
     opts = function()
       local TB = require('telescope.builtin')
       local TA = require('telescope.actions')
       local TLA = require('telescope.actions.layout')
       local TUA = require('telescope-undo.actions')
-
-      local wk = require('which-key')
-      wk.register({
-        ['<leader>f'] = { name = 'Find' },
-      })
 
       return {
         defaults = {
