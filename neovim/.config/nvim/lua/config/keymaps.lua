@@ -3,10 +3,9 @@ local map = require('config.manager').map
 -- Unmap <space> to use as leader key.
 map({ 'n', 'v' }, '<space>', '<nop>', { silent = true })
 
--- Emulate <esc> with movement.
-map('i', 'kj', '<esc>', { silent = true })
+-- Emulate <esc + :w> with movement.
+map('i', 'jk', '<cmd>w<cr><esc>', { silent = true, desc = 'save file and enter normal mode' })
 
-map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'save file' })
 map('n', '<leader>i', vim.show_pos, { desc = 'inspector' })
 
 -- Better copy-paste and deletion.
