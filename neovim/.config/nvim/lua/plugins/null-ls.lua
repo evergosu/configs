@@ -34,9 +34,7 @@ return {
             buffer = bufnr,
             callback = function()
               vim.lsp.buf.format({
-                filter = function()
-                  return client.name == 'null-ls'
-                end,
+                name = 'null-ls',
                 bufnr = bufnr,
               })
             end,
