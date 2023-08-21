@@ -6,7 +6,6 @@ map({ 'n', 'v' }, '<space>', '<nop>', { silent = true })
 -- Emulate <esc> with movement.
 map('i', 'kj', '<esc>', { silent = true })
 
--- TODO: Temporary file actions.
 map({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'save file' })
 map('n', '<leader>i', vim.show_pos, { desc = 'inspector' })
 
