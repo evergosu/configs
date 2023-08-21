@@ -26,6 +26,7 @@ return {
       dashboard.button('p', '  Project files', [[:lua vim.api.nvim_input('<leader>fp') <cr>]]),
       dashboard.button('f', '  CWD files', [[:lua vim.api.nvim_input('<leader>ff') <cr>]]),
       dashboard.button('g', '  Live grep', [[:lua vim.api.nvim_input('<leader>fg') <cr>]]),
+      dashboard.button('e', '󰙅  Explorer', [[:lua vim.api.nvim_input('<leader>e') <cr>]]),
       dashboard.button('n', '  New file', ':ene <bar> startinsert <cr>'),
       dashboard.button('l', '  LazyGit', ':LazyGit<cr>'),
       dashboard.button('L', '󰒲  Lazy', ':Lazy<cr>'),
