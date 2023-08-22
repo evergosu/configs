@@ -2,7 +2,7 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('custom_' .. name, { clear = true })
 end
 
--- Clear commdnd line immediately.
+-- Clear command line immediately.
 vim.api.nvim_create_autocmd('CmdlineLeave', {
   group = augroup('clear_cmdline'),
   callback = function()
