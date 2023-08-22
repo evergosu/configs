@@ -12,6 +12,18 @@ vim.api.nvim_create_autocmd('CmdlineLeave', {
   end,
 })
 
+-- Delete [No Name] buffers on leave.
+vim.api.nvim_create_autocmd('BufLeave', {
+  group = augroup('clear_no_name'),
+  pattern = '{}', -- No file name.
+  callback = function()
+    if vim.fn.line('$') == 1 and vim.fn.getline(1) == '' then
+      vim.bo.buftype = 'nofile'
+      vim.bo.bufhidden = 'wipe'
+    end
+  end,
+})
+
 -- Makes sure that any opened buffer which is contained in a git repo will be tracked.
 vim.api.nvim_create_autocmd('BufEnter', {
   group = augroup('track_repos'),

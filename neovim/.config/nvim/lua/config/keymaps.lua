@@ -32,9 +32,6 @@ map('v', '>', '>gv')
 -- Clear search with <esc>.
 map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'escape and clear hlsearch' })
 
--- Clear search, diff update and redraw.
-map('n', '<leader>r', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'redraw' })
-
 -- Move lines.
 map('v', '<S-j>', ":m '>+1<cr>gv=gv", { desc = 'move down' })
 map('v', '<S-k>', ":m '<-2<cr>gv=gv", { desc = 'move up' })
@@ -67,7 +64,9 @@ map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = 'lazy' })
 -- Buffers.
 map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = 'hop to next buffer' })
 map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'hop to last buffer' })
-map('n', '<leader>c', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = 'close all buffers' })
+map('n', '<leader>r', [[<cmd>:bd|e#<cr>|'"]], { desc = 'reopen buffer' })
+map('n', '<leader>c', [[<cmd>:bp|bd#<cr>]], { desc = 'close current buffer' })
+map('n', '<leader>C', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = 'close buffers except current' })
 
 -- Quickfix and Loclist navigation.
 map('n', '<C-j>', '<cmd>cnext<cr>zz', { desc = 'next in quickfix' })
