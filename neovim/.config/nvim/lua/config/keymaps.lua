@@ -43,8 +43,8 @@ map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'decrease window wi
 map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'increase window width' })
 
 -- Move to window.
-map('n', '<C-h>', '<C-w>w', { desc = 'hop to next window', remap = true })
-map('n', '<C-l>', '<C-w>p', { desc = 'hop to last window', remap = true })
+map('n', '<C-j>', '<C-w>w', { desc = 'jump to next window', remap = true })
+map('n', '<CA-j>', '<C-w>p', { desc = 'jump to last window', remap = true })
 
 -- Center scrolls.
 map('n', '<C-d>', '<C-d>zz', { desc = 'scroll down and center' })
@@ -62,14 +62,8 @@ map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'prev search result
 map('n', '<leader>L', '<cmd>Lazy<cr>', { desc = 'lazy' })
 
 -- Buffers.
-map('n', '<S-h>', '<cmd>:bnext<cr>', { desc = 'hop to next buffer' })
-map('n', '<S-l>', '<cmd>e #<cr>', { desc = 'hop to last buffer' })
-map('n', '<leader>r', [[<cmd>:bd|e#<cr>|'"]], { desc = 'reopen buffer' })
+map('n', '<C-k>', '<cmd>:bnext<cr>', { desc = 'jump to next buffer' })
+map('n', '<CA-k>', '<cmd>e #<cr>', { desc = 'jump to last buffer' })
+map('n', '<leader>r', [[<cmd>:bd|e#|w<cr>|'"]], { desc = 'reopen buffer' })
 map('n', '<leader>c', [[<cmd>:bp|bd#<cr>]], { desc = 'close current buffer' })
 map('n', '<leader>C', [[<cmd>:%bd|e#|bd#<cr>|'"]], { desc = 'close buffers except current' })
-
--- Quickfix and Loclist navigation.
-map('n', '<C-j>', '<cmd>cnext<cr>zz', { desc = 'next in quickfix' })
-map('n', '<C-k>', '<cmd>cprev<cr>zz', { desc = 'prev in quickfix' })
-map('n', '<leader>j', '<cmd>lnext<cr>zz', { desc = 'next in loclist' })
-map('n', '<leader>k', '<cmd>lprev<cr>zz', { desc = 'prev in loclist' })
