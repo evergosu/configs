@@ -35,9 +35,11 @@ return {
       local TA = require('telescope.actions')
       local TLA = require('telescope.actions.layout')
       local TUA = require('telescope-undo.actions')
+      local trouble = require('trouble.providers.telescope')
 
       return {
         defaults = {
+          layout_strategy = 'vertical',
           mappings = {
             i = {
               ['<C-c>'] = false,
@@ -55,6 +57,7 @@ return {
               ['<S-CR>'] = TA.select_vertical,
               ['<C-CR>'] = TA.select_horizontal,
 
+              ['<C-t>'] = trouble.open_with_trouble,
               ['<C-l>'] = function(...)
                 TA.smart_send_to_qflist(...)
                 TB.quickfix()
