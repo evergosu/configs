@@ -1,11 +1,4 @@
-return {
-  dap = {
-    Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },
-    Breakpoint = ' ',
-    BreakpointCondition = ' ',
-    BreakpointRejected = { ' ', 'DiagnosticError' },
-    LogPoint = '.>',
-  },
+local icons = {
   diagnostics = {
     Error = ' ',
     Warn = ' ',
@@ -55,3 +48,10 @@ return {
     Variable = ' ',
   },
 }
+
+for name, icon in pairs(icons.diagnostics) do
+  name = 'DiagnosticSign' .. name
+  vim.fn.sign_define(name, { text = icon, texthl = name, numhl = '' })
+end
+
+return icons
