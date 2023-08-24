@@ -61,18 +61,22 @@ return {
               removed = icons.git.removed,
             },
           },
-          {
-            require('lazy.status').updates,
-            cond = require('lazy.status').has_updates,
-          },
         },
         lualine_y = {
           { 'location', padding = { right = 1 } },
         },
         lualine_z = {
           {
+            function()
+              return require('config.icons').kinds.Package
+            end,
+            cond = require('lazy.status').has_updates,
+            padding = 0,
+          },
+          {
             'datetime',
             style = '%R',
+            padding = { right = 1 },
           },
         },
       },
