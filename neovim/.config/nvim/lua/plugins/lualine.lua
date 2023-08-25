@@ -1,9 +1,19 @@
-local function buffers_count()
-  local count = #vim.tbl_filter(function(b)
-    return vim.fn.buflisted(b) == 1
-  end, vim.api.nvim_list_bufs())
+local function make_bufferline(icons)
+  return function()
+    local function iconify(b)
+      if 1 ~= vim.fn.buflisted(b) then
+        return ''
+      elseif b == vim.fn.winbufnr(0) then
+        return icons.current
+      elseif -1 ~= vim.fn.bufwinnr(b) then
+        return icons.split
+      else
+        return icons.hidden
+      end
+    end
 
-  return string.rep('', count, ' ')
+    return table.concat(vim.tbl_map(iconify, vim.api.nvim_list_bufs()))
+  end
 end
 
 return {
@@ -23,8 +33,12 @@ return {
         lualine_a = {
           'mode',
           {
-            buffers_count,
-            padding = { right = 1 },
+            make_bufferline({
+              current = icons.ui.Current,
+              hidden = icons.ui.Hidden,
+              split = icons.ui.Split,
+            }),
+            padding = { right = 0 },
           },
         },
         lualine_b = { 'branch' },
@@ -68,7 +82,7 @@ return {
         lualine_z = {
           {
             function()
-              return require('config.icons').kinds.Package
+              return require('config.icons').ui.Package
             end,
             cond = require('lazy.status').has_updates,
             padding = 0,

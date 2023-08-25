@@ -10,6 +10,12 @@ local icons = {
     modified = ' ',
     removed = ' ',
   },
+  ui = {
+    Package = ' ',
+    Hidden = ' ',
+    Current = ' ',
+    Split = ' ',
+  },
   kinds = {
     Array = ' ',
     Boolean = ' ',
