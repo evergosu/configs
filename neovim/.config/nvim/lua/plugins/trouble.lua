@@ -28,7 +28,7 @@ return {
       { 'gr', '<cmd>TroubleToggle lsp_references<cr>', desc = '[LSP]: references' },
       { 'gd', '<cmd>TroubleToggle lsp_definitions<cr>', desc = '[LSP]: definitions' },
       { 'gt', '<cmd>TroubleToggle lsp_type_definitions<cr>', desc = '[LSP]: type definitions' },
-      { '<leader>tt', '<cmd>TroubleToggle<cr>', desc = 'toggle' },
+      { '<leader>tt', '<cmd>TroubleToggle document_diagnostics<cr>', desc = 'diagnostics' },
       { '<leader>tl', '<cmd>TroubleToggle loclist<cr>', desc = 'location list' },
       { '<leader>tq', '<cmd>TroubleToggle quickfix<cr>', desc = 'quickfix list' },
       {
