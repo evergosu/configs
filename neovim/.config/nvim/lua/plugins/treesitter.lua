@@ -10,10 +10,6 @@ return {
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
     cmd = { 'TSUpdateSync' },
-    keys = {
-      { '<s-cr>', desc = 'Increment selection' },
-      { '<bs>', desc = 'Decrement selection', mode = 'x' },
-    },
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
@@ -30,15 +26,6 @@ return {
         'vim',
         'vimdoc',
         'yaml',
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = '<s-cr>',
-          node_incremental = '<cr>',
-          scope_incremental = false,
-          node_decremental = '<bs>',
-        },
       },
       context_commentstring = {
         enable = true,
