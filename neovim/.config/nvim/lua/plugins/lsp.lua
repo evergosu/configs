@@ -53,6 +53,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
+      { 'b0o/SchemaStore.nvim', version = false },
       'nvim-lua/plenary.nvim',
       'williamboman/mason.nvim',
       'neovim/nvim-lspconfig',
@@ -86,7 +87,7 @@ return {
             capabilities = capabilities,
           })
         end,
-        ['lua_ls'] = function()
+        lua_ls = function()
           require('neodev').setup()
           require('lspconfig').lua_ls.setup({
             on_attach = on_attach,
@@ -110,6 +111,21 @@ return {
             },
           })
         end,
+        jsonls = {
+          -- Lazy-load.
+          on_new_config = function(new_config)
+            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+            vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
+          end,
+          settings = {
+            json = {
+              -- Auto-load.
+              -- schemas = require('schemastore').json.schemas(),
+              format = { enable = true },
+              validate = { enable = true },
+            },
+          },
+        },
       })
     end,
   },
