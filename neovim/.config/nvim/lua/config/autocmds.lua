@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Check if any buffers were changed outside of Vim.
-vim.api.nvim_create_autocmd({ 'focusgained', 'termclose', 'termleave' }, {
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   group = augroup('checktime'),
   command = 'checktime',
 })
