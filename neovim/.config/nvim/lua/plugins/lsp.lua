@@ -1,37 +1,30 @@
-local function on_attach(_, bufnr)
+local function common_attach(_, bufnr)
   require('which-key').register({
     ['<leader>l'] = { name = 'lsp' },
   }, { buffer = bufnr })
 
-  local function bufmap(keys, func, desc)
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
+  local set = vim.keymap.set
 
   local TB = require('telescope.builtin')
 
-  bufmap('K', vim.lsp.buf.hover, 'keyword hover')
-  bufmap('<A-k>', vim.lsp.buf.signature_help, 'keyword signature help')
-  bufmap('<leader>lr', vim.lsp.buf.rename, 'rename')
-  bufmap('<leader>la', vim.lsp.buf.code_action, 'actions')
-  bufmap('<leader>ld', vim.diagnostic.open_float, 'diagnostic')
-  bufmap('<leader>lD', vim.lsp.buf.declaration, 'declaration')
-  bufmap('<leader>lR', TB.lsp_references, 'references')
-  bufmap('<leader>ld', TB.lsp_definitions, 'definitions')
-  bufmap('<leader>li', TB.lsp_implementations, 'implementations')
-  bufmap('<leader>lt', TB.lsp_type_definitions, 'type definitions')
-  bufmap('<leader>ls', TB.lsp_document_symbols, 'document symbols')
-  bufmap('<leader>lS', TB.lsp_dynamic_workspace_symbols, 'workspace symbols')
-
-  bufmap('gl', function()
-    vim.diagnostic.setqflist({ open = false })
-  end, 'list diagnostics in quickfix list')
-
-  bufmap('gL', function()
-    vim.cmd([[call setqflist([], 'r')]])
-  end, 'clear quickfix list')
-
-  bufmap('[d', vim.diagnostic.goto_prev, 'Prev diagnostic')
-  bufmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+  -- stylua: ignore start
+  set('n', '[d',         vim.diagnostic.goto_prev,                          { buffer = bufnr, desc = 'Prev diagnostic' })
+  set('n', ']d',         vim.diagnostic.goto_next,                          { buffer = bufnr, desc = 'Next diagnostic' })
+  set('n', 'K',          vim.lsp.buf.hover,                                 { buffer = bufnr, desc = 'keyword hover' })
+  set('n', '<A-k>',      vim.lsp.buf.signature_help,                        { buffer = bufnr, desc = 'keyword signature' })
+  set('n', '<leader>la', vim.lsp.buf.code_action,                           { buffer = bufnr, desc = 'actions' })
+  set('n', '<leader>ld', TB.lsp_definitions,                                { buffer = bufnr, desc = 'definitions' })
+  set('n', '<leader>lD', vim.lsp.buf.declaration,                           { buffer = bufnr, desc = 'declaration' })
+  set('n', '<leader>lf', vim.diagnostic.open_float,                         { buffer = bufnr, desc = 'float diagnostic' })
+  set('n', '<leader>li', TB.lsp_implementations,                            { buffer = bufnr, desc = 'implementations' })
+  set('n', '<leader>lr', vim.lsp.buf.rename,                                { buffer = bufnr, desc = 'rename' })
+  set('n', '<leader>lR', TB.lsp_references,                                 { buffer = bufnr, desc = 'references' })
+  set('n', '<leader>ls', TB.lsp_document_symbols,                           { buffer = bufnr, desc = 'document symbols' })
+  set('n', '<leader>lS', TB.lsp_dynamic_workspace_symbols,                  { buffer = bufnr, desc = 'workspace symbols' })
+  set('n', '<leader>lT', TB.lsp_type_definitions,                           { buffer = bufnr, desc = 'type definitions' })
+  set('n', 'gL', function() vim.cmd([[call setqflist([], 'r')]]) end,       { buffer = bufnr, desc = 'clear quickfix list' })
+  set('n', 'gl', function() vim.diagnostic.setqflist({ open = false }) end, { buffer = bufnr, desc = 'fill quickfix list' })
+  -- stylua: ignore end
 end
 
 return {
@@ -54,6 +47,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'b0o/SchemaStore.nvim', version = false },
+      { 'simrat39/rust-tools.nvim', ft = { 'rust', 'rs' } },
       'nvim-lua/plenary.nvim',
       'williamboman/mason.nvim',
       'neovim/nvim-lspconfig',
@@ -69,13 +63,14 @@ return {
         border = 'double',
       })
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      local common_capabilities = vim.lsp.protocol.make_client_capabilities()
+      common_capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
 
       require('mason').setup()
       require('mason-lspconfig').setup({
         automatic_installation = false,
         ensure_installed = {
+          'rust_analyzer',
           'lua_ls',
         },
       })
@@ -83,15 +78,15 @@ return {
       require('mason-lspconfig').setup_handlers({
         function(server_name)
           require('lspconfig')[server_name].setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
+            on_attach = common_attach,
+            capabilities = common_capabilities,
           })
         end,
         lua_ls = function()
           require('neodev').setup()
           require('lspconfig').lua_ls.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
+            on_attach = common_attach,
+            capabilities = common_capabilities,
             settings = {
               Lua = {
                 completion = {
@@ -106,6 +101,100 @@ return {
                 workspace = {
                   checkThirdParty = false,
                   library = { vim.env.VIMRUNTIME },
+                },
+              },
+            },
+          })
+        end,
+        rust_analyzer = function()
+          local rt = require('rust-tools')
+
+          rt.setup({
+            tools = {
+              inlay_hints = {
+                parameter_hints_prefix = '',
+                other_hints_prefix = '',
+              },
+              hover_actions = {
+                border = 'double',
+              },
+            },
+            server = {
+              on_attach = function(_, bufnr)
+                local augroup = vim.api.nvim_create_augroup('RustLspFormat', {})
+
+                vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+
+                vim.api.nvim_create_autocmd('BufWritePre', {
+                  buffer = bufnr,
+                  group = augroup,
+                  callback = function()
+                    -- Reflect clippy changes in current buffer
+                    -- and perform language server format afterwards
+                    -- to avoid races and inconsistent writes.
+                    vim.cmd('silent !cargo clippy --workspace --allow-dirty --quiet --fix')
+                    vim.cmd('checktime ' .. bufnr)
+                    vim.lsp.buf.format({ name = 'rust_analyzer', bufnr = bufnr })
+                  end,
+                })
+
+                -- Better keymaps.
+                common_attach(_, bufnr)
+
+                require('which-key').register({
+                  ['<leader>lt'] = { name = 'rust tools' },
+                }, { buffer = bufnr })
+
+                local set = vim.keymap.set
+
+                -- stylua: ignore start
+                set('n', '<leader>ltc', '<cmd>RustOpenCargo<cr>',         { buffer = bufnr, desc = 'open cargo.toml' })
+                set('n', '<leader>ltd', '<cmd>RustMoveItemDown<cr>',      { buffer = bufnr, desc = 'move item down' })
+                set('n', '<leader>ltu', '<cmd>RustMoveItemUp<cr>',        { buffer = bufnr, desc = 'move item up' })
+                set('n', '<leader>lte', '<cmd>RustExpandMacro<cr>',       { buffer = bufnr, desc = 'expand macro' })
+                set('n', '<leader>ltg', '<cmd>RustViewCrateGraph<cr>',    { buffer = bufnr, desc = 'crate graph' })
+                set('n', '<leader>lth', '<cmd>RustEnableInlayHints<cr>',  { buffer = bufnr, desc = 'hints enable' })
+                set('n', '<leader>ltH', '<cmd>RustDisableInlayHints<cr>', { buffer = bufnr, desc = 'hints disable' })
+                set('n', '<leader>ltj', '<cmd>RustJoinLines<cr>',         { buffer = bufnr, desc = 'join lines' })
+                set('n', '<leader>lto', '<cmd>RustOpenExternalDocs<cr>',  { buffer = bufnr, desc = 'open external docs' })
+                set('n', '<leader>ltp', '<cmd>RustParentModule<cr>',      { buffer = bufnr, desc = 'parent module' })
+                set('n', '<leader>ltr', '<cmd>RustLastRun<cr>',           { buffer = bufnr, desc = 'last run' })
+                set('n', '<leader>ltR', '<cmd>RustRunnables<cr>',         { buffer = bufnr, desc = 'runnables' })
+                set('n', '<leader>lts', '<cmd>RustSSR<cr>',               { buffer = bufnr, desc = 'ssr' })
+                -- stylua: ignore end
+              end,
+              capabilities = common_capabilities,
+              settings = {
+                ['rust-analyzer'] = {
+                  lens = {
+                    enable = true,
+                  },
+                  imports = {
+                    granularity = {
+                      group = 'module',
+                    },
+                    prefix = 'self',
+                  },
+                  cargo = {
+                    allFeatures = true,
+                    buildScripts = {
+                      enable = true,
+                    },
+                  },
+                  procMacro = {
+                    enable = true,
+                  },
+                  diagnostics = {
+                    enable = true,
+                    experimental = {
+                      enable = true,
+                    },
+                  },
+                  checkOnSave = true,
+                  check = {
+                    features = 'all',
+                    command = 'clippy',
+                  },
                 },
               },
             },

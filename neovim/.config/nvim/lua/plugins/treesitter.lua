@@ -23,6 +23,8 @@ return {
         'markdown',
         'markdown_inline',
         'regex',
+        'rust',
+        'toml',
         'vim',
         'vimdoc',
         'yaml',

@@ -25,7 +25,7 @@ return {
       },
       on_attach = function(client, bufnr)
         if client.supports_method('textDocument/formatting') then
-          local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+          local augroup = vim.api.nvim_create_augroup('NullLsFormat', {})
 
           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 
