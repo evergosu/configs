@@ -23,6 +23,7 @@ return {
         'markdown',
         'markdown_inline',
         'regex',
+        'ron',
         'rust',
         'toml',
         'vim',
