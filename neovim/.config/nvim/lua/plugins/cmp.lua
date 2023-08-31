@@ -9,6 +9,7 @@ return {
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
+    'Saecki/crates.nvim',
   },
   config = function()
     require('luasnip.loaders.from_vscode').lazy_load()
@@ -63,6 +64,18 @@ return {
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' },
+      }, {
+        { name = 'buffer' },
+        { name = 'path' },
+      }),
+    })
+
+    cmp.setup.filetype({ 'rust', 'rs' }, {
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'luasnip' },
+        { name = 'crates' },
       }, {
         { name = 'buffer' },
         { name = 'path' },
