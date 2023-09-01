@@ -12,6 +12,18 @@ vim.api.nvim_create_autocmd('CmdlineLeave', {
   end,
 })
 
+-- Persist folds.
+vim.api.nvim_create_autocmd('BufWinLeave', {
+  group = augroup('persist_folds_save'),
+  pattern = '?*.*',
+  command = 'mkview',
+})
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = augroup('persist_folds_load'),
+  pattern = '?*.*',
+  command = 'silent! loadview',
+})
+
 -- Delete [No Name] buffers on leave.
 vim.api.nvim_create_autocmd('BufLeave', {
   group = augroup('clear_no_name'),
