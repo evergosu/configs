@@ -22,6 +22,7 @@ return {
       sources = {
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.code_actions.gitsigns,
+        require('typescript.extensions.null-ls.code-actions'),
       },
       on_attach = function(client, bufnr)
         if client.supports_method('textDocument/formatting') then

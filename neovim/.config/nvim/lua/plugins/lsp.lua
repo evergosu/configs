@@ -49,6 +49,17 @@ return {
     dependencies = {
       { 'b0o/SchemaStore.nvim', version = false },
       { 'simrat39/rust-tools.nvim', ft = { 'rust', 'rs' } },
+      {
+        'jose-elias-alvarez/typescript.nvim',
+        ft = {
+          'javascript',
+          'javascript.jsx',
+          'javascriptreact',
+          'typescript',
+          'typescript.tsx',
+          'typescriptreact',
+        },
+      },
       'nvim-lua/plenary.nvim',
       'williamboman/mason.nvim',
       'neovim/nvim-lspconfig',
@@ -71,8 +82,9 @@ return {
       require('mason-lspconfig').setup({
         automatic_installation = false,
         ensure_installed = {
-          'rust_analyzer',
           'lua_ls',
+          'rust_analyzer',
+          'tsserver',
         },
       })
 
@@ -148,29 +160,28 @@ return {
                   end,
                 })
 
-                -- Better keymaps.
                 common_attach(_, bufnr)
 
                 require('which-key').register({
-                  ['<leader>lt'] = { name = 'rust tools' },
+                  ['<leader>ll'] = { name = 'language' },
                 }, { buffer = bufnr })
 
                 local set = vim.keymap.set
 
                 -- stylua: ignore start
-                set('n', '<leader>ltc', '<cmd>RustOpenCargo<cr>',         { buffer = bufnr, desc = 'open cargo.toml' })
-                set('n', '<leader>ltd', '<cmd>RustMoveItemDown<cr>',      { buffer = bufnr, desc = 'move item down' })
-                set('n', '<leader>ltu', '<cmd>RustMoveItemUp<cr>',        { buffer = bufnr, desc = 'move item up' })
-                set('n', '<leader>lte', '<cmd>RustExpandMacro<cr>',       { buffer = bufnr, desc = 'expand macro' })
-                set('n', '<leader>ltg', '<cmd>RustViewCrateGraph<cr>',    { buffer = bufnr, desc = 'crate graph' })
-                set('n', '<leader>lth', '<cmd>RustEnableInlayHints<cr>',  { buffer = bufnr, desc = 'hints enable' })
-                set('n', '<leader>ltH', '<cmd>RustDisableInlayHints<cr>', { buffer = bufnr, desc = 'hints disable' })
-                set('n', '<leader>ltj', '<cmd>RustJoinLines<cr>',         { buffer = bufnr, desc = 'join lines' })
-                set('n', '<leader>lto', '<cmd>RustOpenExternalDocs<cr>',  { buffer = bufnr, desc = 'open external docs' })
-                set('n', '<leader>ltp', '<cmd>RustParentModule<cr>',      { buffer = bufnr, desc = 'parent module' })
-                set('n', '<leader>ltr', '<cmd>RustLastRun<cr>',           { buffer = bufnr, desc = 'last run' })
-                set('n', '<leader>ltR', '<cmd>RustRunnables<cr>',         { buffer = bufnr, desc = 'runnables' })
-                set('n', '<leader>lts', '<cmd>RustSSR<cr>',               { buffer = bufnr, desc = 'ssr' })
+                set('n', '<leader>llc', '<cmd>RustOpenCargo<cr>',         { buffer = bufnr, desc = 'open cargo.toml' })
+                set('n', '<leader>lld', '<cmd>RustMoveItemDown<cr>',      { buffer = bufnr, desc = 'move item down' })
+                set('n', '<leader>llu', '<cmd>RustMoveItemUp<cr>',        { buffer = bufnr, desc = 'move item up' })
+                set('n', '<leader>lle', '<cmd>RustExpandMacro<cr>',       { buffer = bufnr, desc = 'expand macro' })
+                set('n', '<leader>llg', '<cmd>RustViewCrateGraph<cr>',    { buffer = bufnr, desc = 'crate graph' })
+                set('n', '<leader>llh', '<cmd>RustEnableInlayHints<cr>',  { buffer = bufnr, desc = 'hints enable' })
+                set('n', '<leader>llH', '<cmd>RustDisableInlayHints<cr>', { buffer = bufnr, desc = 'hints disable' })
+                set('n', '<leader>llj', '<cmd>RustJoinLines<cr>',         { buffer = bufnr, desc = 'join lines' })
+                set('n', '<leader>llo', '<cmd>RustOpenExternalDocs<cr>',  { buffer = bufnr, desc = 'open external docs' })
+                set('n', '<leader>llp', '<cmd>RustParentModule<cr>',      { buffer = bufnr, desc = 'parent module' })
+                set('n', '<leader>llr', '<cmd>RustLastRun<cr>',           { buffer = bufnr, desc = 'last run' })
+                set('n', '<leader>llR', '<cmd>RustRunnables<cr>',         { buffer = bufnr, desc = 'runnables' })
+                set('n', '<leader>lls', '<cmd>RustSSR<cr>',               { buffer = bufnr, desc = 'ssr' })
                 -- stylua: ignore end
               end,
               capabilities = common_capabilities,
@@ -205,6 +216,71 @@ return {
                     features = 'all',
                     command = 'clippy',
                   },
+                },
+              },
+            },
+          })
+        end,
+        tsserver = function()
+          require('typescript').setup({
+            detached = false,
+            server = {
+              on_attach = function(_, bufnr)
+                vim.lsp.inlay_hint(bufnr, true)
+
+                common_attach(_, bufnr)
+
+                require('which-key').register({
+                  ['<leader>ll'] = { name = 'language' },
+                }, { buffer = bufnr })
+
+                local set = vim.keymap.set
+
+                -- stylua: ignore start
+                set('n', '<leader>llf', '<cmd>TypescriptFixAll<cr>',               { buffer = bufnr, desc = 'fix all' })
+                set('n', '<leader>llr', '<cmd>TypescriptRenameFile<cr>',           { buffer = bufnr, desc = 'rename file' })
+                set('n', '<leader>llu', '<cmd>TypescriptRemoveUnused<cr>',         { buffer = bufnr, desc = 'remove unused' })
+                set('n', '<leader>llo', '<cmd>TypescriptOrganizeImports<cr>',      { buffer = bufnr, desc = 'organize imports' })
+                set('n', '<leader>llm', '<cmd>TypescriptAddMissingImports<cr>',    { buffer = bufnr, desc = 'add missing imports' })
+                set('n', '<leader>lld', '<cmd>TypescriptGoToSourceDefinition<cr>', { buffer = bufnr, desc = 'go to source definitions' })
+                -- stylua: ignore end
+              end,
+              capabilities = common_capabilities,
+              settings = {
+                typescript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = 'all',
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                  format = {
+                    indentSize = vim.o.shiftwidth,
+                    convertTabsToSpaces = vim.o.expandtab,
+                    tabSize = vim.o.tabstop,
+                  },
+                },
+                javascript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = 'all',
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                  format = {
+                    indentSize = vim.o.shiftwidth,
+                    convertTabsToSpaces = vim.o.expandtab,
+                    tabSize = vim.o.tabstop,
+                  },
+                },
+                completions = {
+                  completeFunctionCalls = true,
                 },
               },
             },

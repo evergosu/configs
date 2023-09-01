@@ -26,6 +26,8 @@ return {
         'ron',
         'rust',
         'toml',
+        'tsx',
+        'typescript',
         'vim',
         'vimdoc',
         'yaml',
