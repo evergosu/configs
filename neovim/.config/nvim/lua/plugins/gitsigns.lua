@@ -36,8 +36,8 @@ return {
         end, 'diff this ~')
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'select hunk')
         map({ 'o', 'x' }, 'ah', ':<C-U>Gitsigns select_hunk<CR>', 'select hunk')
-        map('n', ']h', gs.next_hunk, 'Next hunk')
-        map('n', '[h', gs.prev_hunk, 'Previous hunk')
+        map('n', '[h', gs.next_hunk, 'Next hunk')
+        map('n', ']h', gs.prev_hunk, 'Previous hunk')
       end,
     }
   end,
