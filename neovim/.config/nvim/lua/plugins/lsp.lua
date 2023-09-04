@@ -8,8 +8,8 @@ local function common_attach(_, bufnr)
   local TB = require('telescope.builtin')
 
   -- stylua: ignore start
-  set('n', '[d',         vim.diagnostic.goto_prev,                          { buffer = bufnr, desc = 'Prev diagnostic' })
-  set('n', ']d',         vim.diagnostic.goto_next,                          { buffer = bufnr, desc = 'Next diagnostic' })
+  set('n', ']]',         vim.diagnostic.goto_prev,                          { buffer = bufnr, desc = 'Prev diagnostic' })
+  set('n', '[[',         vim.diagnostic.goto_next,                          { buffer = bufnr, desc = 'Next diagnostic' })
   set('n', 'K',          vim.lsp.buf.hover,                                 { buffer = bufnr, desc = 'keyword hover' })
   set('n', '<A-k>',      vim.lsp.buf.signature_help,                        { buffer = bufnr, desc = 'keyword signature' })
   set('n', '<leader>la', vim.lsp.buf.code_action,                           { buffer = bufnr, desc = 'actions' })
@@ -73,6 +73,16 @@ return {
 
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = 'double',
+      })
+
+      vim.diagnostic.config({
+        float = {
+          border = 'double',
+        },
+        severity_sort = true,
+        underline = true,
+        update_in_insert = false,
+        virtual_text = false,
       })
 
       local common_capabilities = vim.lsp.protocol.make_client_capabilities()
