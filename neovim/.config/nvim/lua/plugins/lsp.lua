@@ -50,7 +50,7 @@ return {
       { 'b0o/SchemaStore.nvim', version = false },
       { 'simrat39/rust-tools.nvim', ft = { 'rust', 'rs' } },
       {
-        'jose-elias-alvarez/typescript.nvim',
+        'pmizio/typescript-tools.nvim',
         ft = {
           'javascript',
           'javascript.jsx',
@@ -232,67 +232,44 @@ return {
           })
         end,
         tsserver = function()
-          require('typescript').setup({
-            detached = false,
-            server = {
-              on_attach = function(_, bufnr)
-                vim.lsp.inlay_hint(bufnr, true)
+          require('typescript-tools').setup({
+            on_attach = function(_, bufnr)
+              vim.lsp.inlay_hint(bufnr, true)
 
-                common_attach(_, bufnr)
+              common_attach(_, bufnr)
 
-                require('which-key').register({
-                  ['<leader>ll'] = { name = 'language' },
-                }, { buffer = bufnr })
+              require('which-key').register({
+                ['<leader>ll'] = { name = 'language' },
+              }, { buffer = bufnr })
 
-                local set = vim.keymap.set
+              local set = vim.keymap.set
 
-                -- stylua: ignore start
-                set('n', '<leader>llf', '<cmd>TypescriptFixAll<cr>',               { buffer = bufnr, desc = 'fix all' })
-                set('n', '<leader>llr', '<cmd>TypescriptRenameFile<cr>',           { buffer = bufnr, desc = 'rename file' })
-                set('n', '<leader>llu', '<cmd>TypescriptRemoveUnused<cr>',         { buffer = bufnr, desc = 'remove unused' })
-                set('n', '<leader>llo', '<cmd>TypescriptOrganizeImports<cr>',      { buffer = bufnr, desc = 'organize imports' })
-                set('n', '<leader>llm', '<cmd>TypescriptAddMissingImports<cr>',    { buffer = bufnr, desc = 'add missing imports' })
-                set('n', '<leader>lld', '<cmd>TypescriptGoToSourceDefinition<cr>', { buffer = bufnr, desc = 'go to source definitions' })
-                -- stylua: ignore end
-              end,
-              capabilities = common_capabilities,
-              settings = {
-                typescript = {
-                  inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = 'all',
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                  },
-                  format = {
-                    indentSize = vim.o.shiftwidth,
-                    convertTabsToSpaces = vim.o.expandtab,
-                    tabSize = vim.o.tabstop,
-                  },
-                },
-                javascript = {
-                  inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = 'all',
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                  },
-                  format = {
-                    indentSize = vim.o.shiftwidth,
-                    convertTabsToSpaces = vim.o.expandtab,
-                    tabSize = vim.o.tabstop,
-                  },
-                },
-                completions = {
-                  completeFunctionCalls = true,
-                },
+              -- stylua: ignore start
+              set('n', '<leader>llf', '<cmd>TSToolsFixAll<cr>',               { buffer = bufnr, desc = 'fix all errors' })
+              set('n', '<leader>llo', '<cmd>TSToolsOrganizeImports<cr>',      { buffer = bufnr, desc = 'organize imports' })
+              set('n', '<leader>llu', '<cmd>TSToolsRemoveUnused<cr>',         { buffer = bufnr, desc = 'remove unused statements' })
+              set('n', '<leader>lla', '<cmd>TSToolsAddMissingImports<cr>',    { buffer = bufnr, desc = 'add missing imports' })
+              set('n', '<leader>lld', '<cmd>TSToolsGoToSourceDefinition<cr>', { buffer = bufnr, desc = 'go to source definition' })
+              -- stylua: ignore end
+            end,
+            capabilities = common_capabilities,
+            settings = {
+              expose_as_code_action = 'all',
+              tsserver_format_options = {
+                semicolons = 'insert',
               },
+              tsserver_file_preferences = {
+                quotePreference = 'single',
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+              },
+              complete_function_calls = true,
             },
           })
         end,
