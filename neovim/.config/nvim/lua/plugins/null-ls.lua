@@ -9,12 +9,8 @@ return {
   config = function()
     require('mason').setup()
     require('mason-null-ls').setup({
-      automatic_installation = false,
-      handlers = {},
-      ensure_installed = {
-        'eslint_d',
-        'stylua',
-      },
+      automatic_installation = true,
+      ensure_installed = nil,
     })
 
     local null_ls = require('null-ls')
@@ -23,8 +19,6 @@ return {
       sources = {
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.code_actions.gitsigns,
-        -- Looks like sources from eslint_d are auto-provided,
-        -- because manual supply resolves to double clients.
       },
       on_attach = function(client, bufnr)
         if client.supports_method('textDocument/formatting') then

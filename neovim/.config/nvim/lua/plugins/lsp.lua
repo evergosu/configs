@@ -47,7 +47,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'b0o/SchemaStore.nvim', version = false },
+      { 'b0o/SchemaStore.nvim', ft = { 'json', 'jsonc' }, version = false },
       { 'simrat39/rust-tools.nvim', ft = { 'rust', 'rs' } },
       {
         'pmizio/typescript-tools.nvim',
@@ -88,10 +88,15 @@ return {
       local common_capabilities = vim.lsp.protocol.make_client_capabilities()
       common_capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
 
-      require('mason').setup()
+      require('mason').setup({ ui = { border = 'double' } })
+      require('lspconfig.ui.windows').default_options.border = 'double'
       require('mason-lspconfig').setup({
-        automatic_installation = false,
+        automatic_installation = true,
         ensure_installed = {
+          'cssls',
+          'eslint',
+          'html',
+          'jsonls',
           'lua_ls',
           'rust_analyzer',
           'tsserver',
@@ -273,21 +278,79 @@ return {
             },
           })
         end,
-        jsonls = {
-          -- Lazy-load.
-          on_new_config = function(new_config)
-            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
-          end,
-          settings = {
-            json = {
-              -- Auto-load.
-              -- schemas = require('schemastore').json.schemas(),
-              format = { enable = true },
-              validate = { enable = true },
+        eslint = function()
+          require('lspconfig').eslint.setup({
+            capabilities = common_capabilities,
+            filetypes = {
+              'graphql',
+              'javascript',
+              'javascript.jsx',
+              'javascriptreact',
+              'svelte',
+              'typescript',
+              'typescript.tsx',
+              'typescriptreact',
             },
-          },
-        },
+            on_attach = function(_, bufnr)
+              local augroup = vim.api.nvim_create_augroup('EslintLspFormat', {})
+
+              vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+
+              vim.api.nvim_create_autocmd('BufWritePre', {
+                buffer = bufnr,
+                group = augroup,
+                command = 'EslintFixAll',
+              })
+            end,
+            settings = {
+              -- Potentially helps with monorepos, but can lead to unpredicted results.
+              workingDirectory = { mode = 'auto' },
+            },
+          })
+        end,
+        html = function()
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+          capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
+
+          require('lspconfig').html.setup({
+            on_attach = common_attach,
+            capabilities = capabilities,
+          })
+        end,
+        cssls = function()
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+          capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
+
+          require('lspconfig').cssls.setup({
+            on_attach = common_attach,
+            capabilities = capabilities,
+          })
+        end,
+        jsonls = function()
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+          capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
+
+          require('lspconfig').jsonls.setup({
+            -- Lazy-load.
+            on_new_config = function(new_config)
+              new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+              vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
+            end,
+            on_attach = common_attach,
+            capabilities = capabilities,
+            settings = {
+              json = {
+                -- Auto-load.
+                -- schemas = require('schemastore').json.schemas(),
+                format = { enable = true },
+                validate = { enable = true },
+              },
+            },
+          })
+        end,
       })
     end,
   },
