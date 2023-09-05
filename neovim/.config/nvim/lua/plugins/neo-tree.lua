@@ -68,9 +68,9 @@ return {
       default_component_configs = {
         git_status = {
           symbols = {
-            added = icons.git.added,
-            deleted = icons.git.removed,
-            modified = icons.git.modified,
+            added = icons.git.Added,
+            deleted = icons.git.Removed,
+            modified = icons.git.Modified,
             renamed = '󰁕',
             untracked = '',
             ignored = '',
