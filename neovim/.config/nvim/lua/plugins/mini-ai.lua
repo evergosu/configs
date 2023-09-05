@@ -1,6 +1,6 @@
 return {
   'echasnovski/mini.ai',
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'nvim-treesitter-textobjects',
     'folke/which-key.nvim',

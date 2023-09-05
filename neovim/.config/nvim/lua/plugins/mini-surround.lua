@@ -1,6 +1,6 @@
 return {
   'echasnovski/mini.surround',
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   opts = {
     search_method = 'cover_or_next',
     mappings = {

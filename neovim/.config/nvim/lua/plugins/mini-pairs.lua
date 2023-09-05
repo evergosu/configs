@@ -1,5 +1,5 @@
 return {
   'echasnovski/mini.pairs',
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   opts = {},
 }

@@ -1,5 +1,7 @@
 return {
   'hrsh7th/nvim-cmp',
+  version = false,
+  event = 'InsertEnter',
   dependencies = {
     'hrsh7th/cmp-nvim-lsp-signature-help',
     'hrsh7th/cmp-nvim-lsp',
@@ -13,7 +15,6 @@ return {
   },
   config = function()
     require('luasnip.loaders.from_vscode').lazy_load()
-
     local luasnip = require('luasnip')
     local cmp = require('cmp')
 

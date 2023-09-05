@@ -2,12 +2,15 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
+      'nvim-telescope/telescope-ui-select.nvim',
+      'nvim-telescope/telescope-fzf-native.nvim',
       'debugloop/telescope-undo.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-web-devicons',
     },
     version = false,
     cmd = 'Telescope',
+    lazy = true,
     keys = function()
       require('which-key').register({
         ['<leader>f'] = { name = 'find' },
@@ -36,6 +39,10 @@ return {
       local TLA = require('telescope.actions.layout')
       local TUA = require('telescope-undo.actions')
       local trouble = require('trouble.providers.telescope')
+
+      -- Lazygit loads at start and does not support lazy loading anyway.
+      -- But this setup enables lazy loading for telescope itself.
+      require('telescope').load_extension('lazygit')
 
       return {
         defaults = {
@@ -117,12 +124,14 @@ return {
   },
   {
     'nvim-telescope/telescope-ui-select.nvim',
+    lazy = true,
     config = function()
       require('telescope').load_extension('ui-select')
     end,
   },
   {
     'nvim-telescope/telescope-fzf-native.nvim',
+    lazy = true,
     build = 'make',
     cond = function()
       return vim.fn.executable('make') == 1
@@ -133,6 +142,7 @@ return {
   },
   {
     'debugloop/telescope-undo.nvim',
+    lazy = true,
     config = function()
       require('telescope').load_extension('undo')
     end,

@@ -1,6 +1,7 @@
 return {
   'echasnovski/mini.indentscope',
   version = false,
+  event = { 'BufReadPre', 'BufNewFile' },
   init = function()
     vim.api.nvim_create_autocmd('FileType', {
       pattern = {
