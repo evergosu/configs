@@ -49,7 +49,6 @@ fn - q : yabai -m window --close
 fn - s : yabai -m window --toggle split
 fn - f : \
   yabai -m window --toggle zoom-fullscreen \
-  && yabai -m window --toggle border \
   && yabai -m space --toggle padding \
   && yabai -m space --toggle gap
 
@@ -62,7 +61,6 @@ fn - y : yabai -m space --mirror y-axis
 fn - r : yabai -m space --rotate 270
 fn + shift - r : yabai -m space --rotate 90
 
-fn - b : yabai -m window --toggle border
 fn - g : yabai -m space --toggle gap && yabai -m space --toggle padding
 
 fn + shift - b : yabai -m space --balance
@@ -87,8 +85,8 @@ fn - space : sketchybar --bar hidden=toggle
 fn + shift - space : sketchybar --exit
 fn + ctrl - space : sketchybar --update
 
-:: default : yabai -m config active_window_border_color 0xFFA3BE8C; $HOME/.config/sketchybar/scripts/mode.sh normal
-:: mode_chrome : open -a "Google Chrome"; yabai -m config active_window_border_color 0xFFEBCB8B; $HOME/.config/sketchybar/scripts/mode.sh chrome
+:: default : $HOME/.config/sketchybar/scripts/mode.sh normal
+:: mode_chrome : open -a "Google Chrome"; $HOME/.config/sketchybar/scripts/mode.sh chrome
 
 default < fn - c ; mode_chrome
 

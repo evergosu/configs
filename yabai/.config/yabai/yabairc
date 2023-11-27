@@ -9,10 +9,6 @@ yabai -m config layout                      bsp          \
                 window_shadow               float        \
                 window_opacity              on           \
                 window_opacity_duration     0.15         \
-                window_border               on           \
-                window_border_hidpi         off          \
-                window_border_width         2            \
-                window_border_radius        11           \
                 window_gap                  8            \
                 external_bar                all:33:0     \
                 top_padding                 10           \
@@ -35,3 +31,7 @@ yabai -m signal --add event=window_created action="sketchybar --trigger windows_
 yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
 
 echo "yabai configuration loaded."
+
+# TODO: Delayed until MacOS Sonoma install.
+# https://github.com/FelixKratz/JankyBorders
+# borders active_color=0xFFA3BE8C inactive_color=0xFFEBCB8B width=5.0 &
