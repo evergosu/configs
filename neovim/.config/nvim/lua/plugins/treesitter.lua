@@ -32,11 +32,10 @@ return {
         'vimdoc',
         'yaml',
       },
-      context_commentstring = {
-        enable = true,
-      },
     },
     config = function(_, opts)
+      vim.g.skip_ts_context_commentstring_module = true
+
       require('nvim-treesitter.configs').setup(opts)
       require('treesitter-context').setup({ max_lines = 1 })
 
