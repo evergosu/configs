@@ -60,6 +60,7 @@ return {
           'typescriptreact',
         },
       },
+      'lbrayner/vim-rzip',
       'nvim-lua/plenary.nvim',
       'williamboman/mason.nvim',
       'neovim/nvim-lspconfig',
@@ -99,6 +100,7 @@ return {
           'jsonls',
           'lua_ls',
           'rust_analyzer',
+          'stylelint_lsp',
           'tsserver',
         },
       })
@@ -302,6 +304,7 @@ return {
                 command = 'EslintFixAll',
               })
             end,
+            root_dir = require('lspconfig.util').find_git_ancestor,
             settings = {
               -- Potentially helps with monorepos, but can lead to unpredicted results.
               workingDirectory = { mode = 'auto' },
@@ -326,6 +329,28 @@ return {
           require('lspconfig').cssls.setup({
             on_attach = common_attach,
             capabilities = capabilities,
+            settings = {
+              css = { validate = true, lint = {
+                unknownAtRules = 'ignore',
+              } },
+            },
+          })
+        end,
+        stylelint_lsp = function()
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+          capabilities = require('cmp_nvim_lsp').default_capabilities(common_capabilities)
+
+          require('lspconfig').stylelint_lsp.setup({
+            on_attach = common_attach,
+            capabilities = capabilities,
+            filetypes = { 'css' },
+            root_dir = require('lspconfig').util.root_pattern('package.json', '.git'),
+            settings = {
+              stylelintplus = {
+                autoFixOnSave = true,
+              },
+            },
           })
         end,
         jsonls = function()
