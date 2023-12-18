@@ -96,5 +96,3 @@ symbol = " "
 
 [nodejs]
 format = "via [󰎙 $version](bold green) "
-detect_files = ["package.json", ".node-version"]
-detect_folders = ["node_modules"]
