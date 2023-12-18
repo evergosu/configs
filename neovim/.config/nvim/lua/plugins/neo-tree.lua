@@ -11,9 +11,8 @@ return {
       '<leader>e',
       function()
         require('neo-tree.command').execute({
-          dir = vim.system({ 'git', 'rev-parse', '--show-toplevel' }):wait().stdout:gsub('\n', '') or vim.loop.cwd(),
           toggle = true,
-          reveal = true,
+          reveal_force_cwd = true,
         })
       end,
       desc = 'explorer',
