@@ -3,8 +3,8 @@
 options=(
   width=8.0
   style=round
-  ctive_color=0xffa7adba
-  nactive_color=0xff414550
+  active_color=0xffa7adba
+  inactive_color=0xff414550
 )
 
 borders "${options[@]}"
