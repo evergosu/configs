@@ -47,7 +47,9 @@ fn + shift - l : \
 
 fn - q : yabai -m window --close
 fn - s : yabai -m window --toggle split
-fn - f : yabai -m window --toggle zoom-fullscreen
+fn - f : yabai -m query --windows --space \
+  | jq -rec '.[].id' \
+  | xargs -L 1 -I {} yabai -m window {} --toggle zoom-fullscreen
 
 fn - n : yabai -m window --space next
 fn - p : yabai -m window --space prev
