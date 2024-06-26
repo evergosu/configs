@@ -9,18 +9,9 @@ highlight_current_window() {
   CURRENT_ID=$(yabai -m query --windows --window | jq .id)
 
   for ((i=0; i<${#WINDOWS[@]}; i+=1)); do
-    COLOR=$COLOR_ICON
-    FONT=$FONT_ICON
+    COLOR=$([[ ${WINDOWS[$i]} =~ $CURRENT_ID ]] && echo $COLOR_ICON_HIGHLIGHT || echo $COLOR_ICON)
 
-    if [[ ${WINDOWS[$i]} =~ $CURRENT_ID ]]; then
-      COLOR=$COLOR_ICON_HIGHLIGHT
-
-      FONT="sketchybar-app-font:Regular:22.0"
-    fi
-
-    sketchybar --animate tanh  5                      \
-               --set ${WINDOWS[$i]} icon.color=$COLOR \
-                                    icon.font=$FONT
+    sketchybar --animate tanh 5 --set ${WINDOWS[$i]} icon.color=$COLOR
   done
 }
 
