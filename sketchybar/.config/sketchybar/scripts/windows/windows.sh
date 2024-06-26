@@ -1,6 +1,8 @@
 #!/bin/bash
 
 source "$HOME/.config/sketchybar/properties.sh"
+source "$HOME/.config/sketchybar/scripts/windows/icon_map.sh"
+source "$HOME/.config/sketchybar/scripts/windows/terminal_map.sh"
 
 highlight_current_window() {
   WINDOWS=($(sketchybar --query windows | jq -rec ".bracket | @sh" | tr -d \'))
@@ -43,9 +45,12 @@ render_windows() {
     STACK_PADDING=$( [[ $INDEX -lt 2 ]] && echo $PADDING || echo -$(($PADDING + 2)) )
     PADDING_LEFT=$( (( i == 0 )) && echo 0 || echo $STACK_PADDING )
 
-    sketchybar --add        item        window.$ID left                                                       \
-               --set        window.$ID  icon="$($HOME/.config/sketchybar/scripts/windows/icon_map.sh "$APP")" \
-                                        background.padding_left=$PADDING_LEFT                                 \
+    __icon_map "${APP}"
+    __terminal_map "${APP}" "${ID}"
+
+    sketchybar --add        item        window.$ID left                        \
+               --set        window.$ID  icon="${icon_result}"                  \
+                                        background.padding_left=$PADDING_LEFT  \
                                         label.drawing=off
   done
 
