@@ -3,34 +3,31 @@
 fn - h : \
   (yabai -m query --spaces --display \
   | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index - 1))."first-window") // (last | ."first-window")' \
-  | xargs yabai -m window --focus) \
-  && sketchybar --trigger window_focused
+  | xargs yabai -m window --focus)
 fn - j : \
-  (yabai -m window --focus next || yabai -m window --focus first) \
-  && sketchybar --trigger window_focused
+  (yabai -m window --focus next || yabai -m window --focus first)
 fn - k : \
   (yabai -m window --focus stack.next || yabai -m window --focus stack.first) \
   && sketchybar --trigger window_focused
 fn - l : \
   (yabai -m query --spaces --display \
   | jq -re '(.[] as $arr | .[] | select(.index == ($arr | select(."has-focus" == true).index + 1))."first-window") // (first | ."first-window")' \
-  | xargs yabai -m window --focus) \
-  && sketchybar --trigger window_focused
+  | xargs yabai -m window --focus)
 
 fn + cmd - h : yabai -m window --swap west
 fn + cmd - j : yabai -m window --swap south
 fn + cmd - k : yabai -m window --swap north
 fn + cmd - l : yabai -m window --swap east
 
-fn + alt - h : yabai -m window --warp west
-fn + alt - j : yabai -m window --warp south
-fn + alt - k : yabai -m window --warp north
-fn + alt - l : yabai -m window --warp east
+fn + alt - h : yabai -m window --warp west; sketchybar --trigger window_stacked
+fn + alt - j : yabai -m window --warp south; sketchybar --trigger window_stacked
+fn + alt - k : yabai -m window --warp north; sketchybar --trigger window_stacked
+fn + alt - l : yabai -m window --warp east; sketchybar --trigger window_stacked
 
-fn + ctrl - h : yabai -m window --stack west
-fn + ctrl - j : yabai -m window --stack south
-fn + ctrl - k : yabai -m window --stack north
-fn + ctrl - l : yabai -m window --stack east
+fn + ctrl - h : yabai -m window --stack west; sketchybar --trigger window_stacked
+fn + ctrl - j : yabai -m window --stack south; sketchybar --trigger window_stacked
+fn + ctrl - k : yabai -m window --stack north; sketchybar --trigger window_stacked
+fn + ctrl - l : yabai -m window --stack east; sketchybar --trigger window_stacked
 
 fn + shift - h : \
   yabai -m window --resize left:-20:0; \
