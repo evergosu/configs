@@ -1,22 +1,21 @@
 #!/bin/bash
 
+source "$HOME/.config/sketchybar/properties.sh"
+
 lock=(
   margin=-200
-  y_offset=-32
-  blur_radius=0
+  y_offset=-33
   notch_width=0
   padding_left=0
   padding_right=0
 )
 
 unlock=(
-  margin=10
+  margin=0
   y_offset=0
-  blur_radius=30
   notch_width=200
-  padding_left=10
-  padding_right=10
-  corner_radius=11
+  padding_left=$PADDING
+  padding_right=$PADDING
 )
 
 case "$SENDER" in

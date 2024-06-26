@@ -1,18 +1,12 @@
 #!/bin/bash
 
-source "$HOME/.config/sketchybar/sketchybarrc"
-
 SOURCE=$(defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID)
 
 case ${SOURCE} in
   'com.apple.keylayout.ABC')
-    ICON=$ENGLISH
-    COLOR="${defaults[10]#*=}"
+    sketchybar --set $NAME icon.drawing=off
     ;;
   'com.apple.keylayout.Russian')
-    ICON=$RUSSIAN
-    COLOR=$NORD_AURORA_5
+    sketchybar --set $NAME icon.drawing=on
     ;;
 esac
-
-sketchybar --set $NAME icon=$ICON background.color=$COLOR

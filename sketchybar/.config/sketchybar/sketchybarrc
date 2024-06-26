@@ -1,133 +1,106 @@
 #!/bin/bash
 
 source "$HOME/.config/sketchybar/colors.sh"
-source "$HOME/.config/sketchybar/icons.sh"
+source "$HOME/.config/sketchybar/properties.sh"
 
 SCRIPTS=$HOME/.config/sketchybar/scripts
-FONT="SF Pro"
-DEFAULT_PADDING=4
-DEFAULT_PADDING_HALF=$(($DEFAULT_PADDING / 2))
-
-export bar=(
-  height=32
-  shadow=on
-  sticky=on
-  margin=10
-  y_offset=0
-  position=top
-  blur_radius=30
-  notch_width=200
-  padding_left=10
-  padding_right=10
-  corner_radius=11
-  color=$TRANSPARENT
-)
-
-export defaults=(
-  icon.font="$FONT:Bold:14.0"
-  icon.color=$NORD_SNOW_STORM_1
-  icon.padding_left=$DEFAULT_PADDING
-  icon.padding_right=$DEFAULT_PADDING
-  label.font="$FONT:Bold:14.0"
-  label.color=$NORD_SNOW_STORM_1
-  label.padding_left=$DEFAULT_PADDING
-  label.padding_right=$DEFAULT_PADDING
-  background.height=24
-  background.corner_radius=4
-  background.color=$NORD_POLAR_NIGHT_4
-  background.padding_left=$DEFAULT_PADDING
-  background.padding_right=$DEFAULT_PADDING
-  popup.background.border_width=1
-  popup.background.corner_radius=6
-  popup.background.shadow.drawing=on
-  popup.background.color=$POPUP_BACKGROUND_COLOR
-  popup.background.border_color=$POPUP_BORDER_COLOR
-  slider.highlight_color=$BLUE
-  slider.background.height=5
-  slider.background.corner_radius=3
-  slider.background.color=$BACKGROUND_2
-  slider.knob=􀀁
-  slider.knob.drawing=off
-  updates=when_shown
-  padding_left=$DEFAULT_PADDING
-  padding_right=$DEFAULT_PADDING
-)
-
-template_icon_badge=(
-  label.drawing=off
-)
-
-template_label_badge=(
-  icon.drawing=off
-)
 
 bar=(
-  height=32
-  shadow=on
+  height=33
+  shadow=off
   sticky=on
-  margin=10
   y_offset=0
   position=top
-  blur_radius=30
   notch_width=200
-  padding_left=10
-  padding_right=10
-  corner_radius=11
-  color=$TRANSPARENT
+  padding_left=$PADDING
+  padding_right=$PADDING
+  corner_radius=100
+  color=$COLOR_BAR
+)
+
+defaults=(
+  icon.font=$FONT_ICON
+  icon.color=$COLOR_ICON
+  icon.padding_left=$PADDING
+  icon.padding_right=$PADDING
+  label.font=$FONT_LABEL
+  label.color=$COLOR_LABEL
+  label.padding_left=$PADDING_LABEL
+  label.padding_right=$PADDING_LABEL
+  background.height=33
+  background.corner_radius=4
+  background.color=$COLOR_BACKGROUND
+  updates=when_shown
+)
+
+apps=(
+  updates=on
+  script="$SCRIPTS/windows/windows.sh"
+  drawing=off
 )
 
 brew=(
-  "${template_icon_badge[@]}"
   script="$SCRIPTS/brew.sh"
+  y_offset=1
   update_freq=3600
-  icon=$BREW
+  icon=$ICON_BREW
+  label.drawing=off
 )
 
 keyboard=(
-  "${template_icon_badge[@]}"
   script="$SCRIPTS/keyboard.sh"
+  y_offset=1
+  icon.color=$COLOR_ICON_KEYBOARD
+  icon=$ICON_KEYBOARD
+  icon.drawing=off
+  label.drawing=off
 )
 
 mode=(
-  "${template_icon_badge[@]}"
   icon=":google_chrome:"
-  icon.font="sketchybar-app-font:Regular:14.0"
-  background.color=$NORD_AURORA_1
+  icon.color=$COLOR_ICON_MODE
+  label.drawing=off
   drawing=off
 )
 
 wake=(
-  drawing=off
   updates=on
   script="$SCRIPTS/wake.sh"
+  drawing=off
 )
 
 clock=(
-  "${template_label_badge[@]}"
   update_freq=30
   script="$SCRIPTS/clock.sh"
+  icon.drawing=off
 )
 
-# check if we are being sourced by another script or shell
-[[ "${#BASH_SOURCE[@]}" -gt "1" ]] && { return 0; }
-
-# Static items
-sketchybar --bar                       "${bar[@]}"                                                 \
+sketchybar --hotload                   on                                                          \
+           --bar                       "${bar[@]}"                                                 \
            --default                   "${defaults[@]}"                                            \
+                                                                                                   \
+           --add       item            apps left                                                   \
+           --set       apps            "${apps[@]}"                                                \
+           --add       event           window_focused                                              \
+           --add       event           window_stacked                                              \
+           --subscribe apps            space_windows_change                                        \
+                                       front_app_switched                                          \
+                                       window_focused                                              \
+                                       window_stacked                                              \
                                                                                                    \
            --add       item            clock right                                                 \
            --set       clock           "${clock[@]}"                                               \
            --subscribe clock           system_woke                                                 \
                                                                                                    \
-           --add       item            keyboard right                                              \
-           --set       keyboard        "${keyboard[@]}"                                            \
-           --add       event           input_change "AppleSelectedInputSourcesChangedNotification" \
-           --subscribe keyboard        input_change                                                \
-                                                                                                   \
            --add       item            brew right                                                  \
            --set       brew            "${brew[@]}"                                                \
            --add       event           brew_update                                                 \
            --subscribe brew            brew_update                                                 \
+                                                                                                   \
+           --add       item            keyboard right                                              \
+           --set       keyboard        "${keyboard[@]}"                                            \
+           --add       event           input_change "AppleSelectedInputSourcesChangedNotification" \
+           --subscribe keyboard        input_change                                                \
                                                                                                    \
            --add       item            mode right                                                  \
            --set       mode            "${mode[@]}"                                                \
@@ -136,12 +109,7 @@ sketchybar --bar                       "${bar[@]}"                              
            --set       wake            "${wake[@]}"                                                \
            --add       event           lock   "com.apple.screenIsLocked"                           \
            --add       event           unlock "com.apple.screenIsUnlocked"                         \
-           --subscribe wake            lock unlock                                                 \
-                                                                                                   \
-           --add       event           window_focused
-
-source "$SCRIPTS/windows.sh"
-render_windows
+           --subscribe wake            lock unlock
 
 # Forcing all item scripts to run (never do this outside of sketchybarrc)
 sketchybar --update
