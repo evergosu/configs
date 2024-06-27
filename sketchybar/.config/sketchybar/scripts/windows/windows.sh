@@ -9,7 +9,7 @@ highlight_current_window() {
   CURRENT_ID=$(yabai -m query --windows --window | jq .id)
 
   for ((i=0; i<${#WINDOWS[@]}; i+=1)); do
-    COLOR=$([[ ${WINDOWS[$i]} =~ $CURRENT_ID ]] && echo $COLOR_ICON_HIGHLIGHT || echo $COLOR_ICON)
+    COLOR=$([[ ${WINDOWS[$i]} == "window.$CURRENT_ID" ]] && echo $COLOR_ICON_HIGHLIGHT || echo $COLOR_ICON)
 
     sketchybar --animate tanh 5 --set ${WINDOWS[$i]} icon.color=$COLOR
   done
