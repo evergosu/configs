@@ -2,6 +2,7 @@
 
 source "$HOME/.config/sketchybar/colors.sh"
 source "$HOME/.config/sketchybar/properties.sh"
+source "$HOME/.config/sketchybar/scripts/windows/icon_map.sh"
 
 SCRIPTS=$HOME/.config/sketchybar/scripts
 
@@ -39,25 +40,32 @@ apps=(
   drawing=off
 )
 
+__icon_map "Brew"
+
 brew=(
   script="$SCRIPTS/brew.sh"
-  y_offset=1
   update_freq=3600
-  icon=$ICON_BREW
-  label.drawing=off
-)
-
-keyboard=(
-  script="$SCRIPTS/keyboard.sh"
-  y_offset=1
-  icon.color=$COLOR_ICON_KEYBOARD
-  icon=$ICON_KEYBOARD
+  icon.font="${FONT_FAMILY_ICON}:21.0"
+  icon=$icon_result
   icon.drawing=off
   label.drawing=off
 )
 
+__icon_map "Keyboard"
+
+keyboard=(
+  script="$SCRIPTS/keyboard.sh"
+  icon.font="${FONT_FAMILY_ICON}:21.0"
+  icon.color=$COLOR_ICON_KEYBOARD
+  icon=$icon_result
+  icon.drawing=off
+  label.drawing=off
+)
+
+__icon_map "Google Chrome"
+
 mode=(
-  icon=":google_chrome:"
+  icon=$icon_result
   icon.color=$COLOR_ICON_MODE
   label.drawing=off
   drawing=off

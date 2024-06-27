@@ -2,6 +2,7 @@
 
 source "$HOME/.config/sketchybar/properties.sh"
 
+DRAWING=on
 COUNT=$(brew outdated | wc -l | tr -d ' ')
 
 case "$COUNT" in
@@ -9,7 +10,8 @@ case "$COUNT" in
   1[0-9])     COLOR=$COLOR_BREW_DANGER ;;
   [6-9])      COLOR=$COLOR_BREW_FINE ;;
   [1-5])      COLOR=$COLOR_BREW_LOW ;;
-  0)          COLOR=$COLOR_BREW_ZERO ;;
+  0)          COLOR=$COLOR_BREW_ZERO; DRAWING=off ;;
 esac
 
-sketchybar --set $NAME icon.color=$COLOR
+sketchybar --set $NAME icon.color=$COLOR icon.drawing=$DRAWING
+

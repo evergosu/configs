@@ -14,6 +14,9 @@ function __icon_map() {
    "Brave Browser")
         icon_result=
         ;;
+   "Brew")
+        icon_result=
+        ;;
    "Calculator")
         icon_result=󱖦
         ;;
@@ -55,6 +58,9 @@ function __icon_map() {
         ;;
    "Chromium" | "Google Chrome" | "Google Chrome Canary")
         icon_result=' '
+        ;;
+   "Keyboard")
+        icon_result=󰌌
         ;;
    "kitty")
         icon_result=
