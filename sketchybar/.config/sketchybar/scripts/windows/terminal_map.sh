@@ -6,7 +6,7 @@ function __terminal_map() {
 
     case $title in
       "Neovim" | "neovim" | "nvim"*)
-        icon_result=":neovim:"
+        icon_result=
         ;;
     esac
   fi

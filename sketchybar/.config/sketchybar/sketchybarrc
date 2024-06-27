@@ -19,11 +19,11 @@ bar=(
 )
 
 defaults=(
-  icon.font=$FONT_ICON
+  icon.font="$FONT_ICON"
   icon.color=$COLOR_ICON
   icon.padding_left=$PADDING
   icon.padding_right=$PADDING
-  label.font=$FONT_LABEL
+  label.font="$FONT_LABEL"
   label.color=$COLOR_LABEL
   label.padding_left=$PADDING_LABEL
   label.padding_right=$PADDING_LABEL

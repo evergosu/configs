@@ -5,9 +5,8 @@ source "$HOME/.config/sketchybar/colors.sh"
 PADDING=4
 PADDING_LABEL=8
 
-FONT_LABEL="SFPro:Bold:14.0"
-FONT_ICON="sketchybar-app-font:Regular:16.0"
-
+FONT_LABEL="eversevka:bold:16.0"
+FONT_ICON="Hack Nerd Font:Bold:16.0"
 COLOR_BAR=$NORD_POLAR_NIGHT_2
 COLOR_ICON=$NORD_SNOW_STORM_1
 COLOR_ICON_KEYBOARD=$NORD_AURORA_3
