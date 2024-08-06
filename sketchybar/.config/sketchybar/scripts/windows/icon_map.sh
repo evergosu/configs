@@ -5,6 +5,9 @@ function __icon_map() {
    "App Store")
         icon_result=
         ;;
+   "Battery")
+        icon_result=
+        ;;
    "Battle.net")
         icon_result=
         ;;

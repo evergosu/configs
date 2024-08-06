@@ -71,6 +71,16 @@ mode=(
   drawing=off
 )
 
+__icon_map "Battery"
+
+battery=(
+  icon=$icon_result
+  script="$SCRIPTS/battery.sh"
+  label.drawing=off
+  update_freq=300
+  drawing=off
+)
+
 spotify=(
   script="$SCRIPTS/spotify.sh"
   label.padding_left=$PADDING
@@ -111,6 +121,11 @@ sketchybar --hotload                   on                                       
            --set       brew            "${brew[@]}"                                                \
            --add       event           brew_update                                                 \
            --subscribe brew            brew_update                                                 \
+                                                                                                   \
+           --add       item            battery right                                               \
+           --set       battery         "${battery[@]}"                                             \
+           --subscribe battery         power_source_change                                         \
+                                       system_woke                                                 \
                                                                                                    \
            --add       item            keyboard right                                              \
            --set       keyboard        "${keyboard[@]}"                                            \
