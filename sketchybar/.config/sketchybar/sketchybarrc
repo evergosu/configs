@@ -71,6 +71,13 @@ mode=(
   drawing=off
 )
 
+spotify=(
+  script="$SCRIPTS/spotify.sh"
+  label.padding_left=$PADDING
+  icon.drawing=off
+  label.drawing=off
+)
+
 wake=(
   updates=on
   script="$SCRIPTS/wake.sh"
@@ -112,6 +119,12 @@ sketchybar --hotload                   on                                       
                                                                                                    \
            --add       item            mode right                                                  \
            --set       mode            "${mode[@]}"                                                \
+                                                                                                   \
+           --add       item            spotify e                                                   \
+           --set       spotify         "${spotify[@]}"                                             \
+           --add       event           spotify_change "com.spotify.client.PlaybackStateChanged"    \
+           --subscribe spotify         spotify_change                                              \
+                                       mouse.clicked                                               \
                                                                                                    \
            --add       item            wake left                                                   \
            --set       wake            "${wake[@]}"                                                \

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 # Nord theme
 export TRANSPARENT=0x00000000
