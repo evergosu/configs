@@ -2,7 +2,7 @@
 
 source "$HOME/.config/sketchybar/colors.sh"
 source "$HOME/.config/sketchybar/properties.sh"
-source "$HOME/.config/sketchybar/scripts/windows/icon_map.sh"
+source "$HOME/.config/sketchybar/scripts/icons.sh"
 
 SCRIPTS=$HOME/.config/sketchybar/scripts
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source "$HOME/.config/sketchybar/properties.sh"
-source "$HOME/.config/sketchybar/scripts/windows/icon_map.sh"
+source "$HOME/.config/sketchybar/scripts/icons.sh"
 source "$HOME/.config/sketchybar/scripts/windows/terminal_map.sh"
 
 highlight_current_window() {

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 function __terminal_map() {
   if [[ "$1" == "kitty" ]]; then
