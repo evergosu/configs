@@ -8,7 +8,7 @@ HALF_LENGTH=$(((MAX_LENGTH + 1) / 2))
 update_track() {
   PLAYER_STATE=$(echo "$INFO" | jq -r '.["Player State"]')
 
-  if [ $PLAYER_STATE = "Playing" ]; then
+  if [ "$PLAYER_STATE" = "Playing" ]; then
     TRACK="$(echo "$INFO" | jq -r .Name)"
     ARTIST="$(echo "$INFO" | jq -r .Artist)"
 
@@ -29,9 +29,9 @@ update_track() {
     fi
 
     sketchybar --set $NAME label="${ARTIST} - ${TRACK}" label.color=$COLOR_LABEL_PLAYER_ON label.drawing=on
-  elif [ $PLAYER_STATE = "Paused" ]; then
+  elif [ "$PLAYER_STATE" = "Paused" ]; then
     sketchybar --set $NAME label.color=$COLOR_LABEL_PLAYER_OFF
-  elif [ $PLAYER_STATE = "Stopped" ]; then
+  elif [ "$PLAYER_STATE" = "Stopped" ]; then
     sketchybar --set $NAME label.color=$COLOR_LABEL_PLAYER_OFF label.drawing=off
   else
     sketchybar --set $NAME label.color=$COLOR_LABEL_PLAYER_OFF
