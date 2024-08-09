@@ -62,7 +62,7 @@ function __icon_map() {
    "Chromium" | "Google Chrome" | "Google Chrome Canary")
         icon_result=' '
         ;;
-   "Keyboard")
+   "Keylayout")
         icon_result=󰌌
         ;;
    "kitty")

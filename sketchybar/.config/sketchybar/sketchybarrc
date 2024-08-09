@@ -51,12 +51,12 @@ brew=(
   label.drawing=off
 )
 
-__icon_map "Keyboard"
+__icon_map "Keylayout"
 
-keyboard=(
-  script="$SCRIPTS/keyboard.sh"
+keylayout=(
+  script="$SCRIPTS/keylayout.sh"
   icon.font="${FONT_FAMILY_ICON}:21.0"
-  icon.color=$COLOR_ICON_KEYBOARD
+  icon.color=$COLOR_ICON_KEYLAYOUT
   icon=$icon_result
   icon.drawing=off
   label.drawing=off
@@ -127,10 +127,10 @@ sketchybar --hotload                   on                                       
            --subscribe battery         power_source_change                                         \
                                        system_woke                                                 \
                                                                                                    \
-           --add       item            keyboard right                                              \
-           --set       keyboard        "${keyboard[@]}"                                            \
+           --add       item            keylayout right                                             \
+           --set       keylayout       "${keylayout[@]}"                                           \
            --add       event           input_change "AppleSelectedInputSourcesChangedNotification" \
-           --subscribe keyboard        input_change                                                \
+           --subscribe keylayout       input_change                                                \
                                                                                                    \
            --add       item            mode right                                                  \
            --set       mode            "${mode[@]}"                                                \
