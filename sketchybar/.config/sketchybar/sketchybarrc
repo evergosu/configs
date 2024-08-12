@@ -20,6 +20,7 @@ bar=(
 )
 
 defaults=(
+  y_offset=1
   icon.font="$FONT_ICON"
   icon.color=$COLOR_ICON
   icon.padding_left=$PADDING
@@ -28,7 +29,7 @@ defaults=(
   label.color=$COLOR_LABEL
   label.padding_left=$PADDING_LABEL
   label.padding_right=$PADDING_LABEL
-  background.height=33
+  background.height=23
   background.corner_radius=4
   background.color=$COLOR_BACKGROUND
   updates=when_shown
@@ -43,18 +44,22 @@ apps=(
 __icon_map "Brew"
 
 brew=(
-  script="$SCRIPTS/brew.sh"
   update_freq=3600
+  script="$SCRIPTS/brew.sh"
+  background.color=$COLOR_ICON_BACKGROUND
+  background.padding_right=$PADDING
   icon.font="${FONT_FAMILY_ICON}:21.0"
   icon=$icon_result
-  icon.drawing=off
   label.drawing=off
+  drawing=off
 )
 
 __icon_map "Keylayout"
 
 keylayout=(
   script="$SCRIPTS/keylayout.sh"
+  background.color=$COLOR_ICON_BACKGROUND
+  background.padding_right=$PADDING
   icon.font="${FONT_FAMILY_ICON}:21.0"
   icon.color=$COLOR_ICON_KEYLAYOUT
   icon=$icon_result
@@ -67,6 +72,8 @@ __icon_map "Google Chrome"
 mode=(
   icon=$icon_result
   icon.color=$COLOR_ICON_MODE
+  background.color=$COLOR_ICON_BACKGROUND
+  background.padding_right=$PADDING
   label.drawing=off
   drawing=off
 )
@@ -76,6 +83,8 @@ __icon_map "Battery"
 battery=(
   icon=$icon_result
   script="$SCRIPTS/battery.sh"
+  background.color=$COLOR_ICON_BACKGROUND
+  background.padding_right=$PADDING
   label.drawing=off
   update_freq=300
   drawing=off
@@ -84,8 +93,8 @@ battery=(
 spotify=(
   script="$SCRIPTS/spotify.sh"
   label.padding_left=$PADDING
-  icon.drawing=off
   label.drawing=off
+  icon.drawing=off
 )
 
 wake=(
@@ -97,6 +106,8 @@ wake=(
 clock=(
   update_freq=30
   script="$SCRIPTS/clock.sh"
+  background.color=$COLOR_ICON_BACKGROUND
+  label.color=$COLOR_ICON_HIGHLIGHT
   icon.drawing=off
 )
 
@@ -117,6 +128,9 @@ sketchybar --hotload                   on                                       
            --set       clock           "${clock[@]}"                                               \
            --subscribe clock           system_woke                                                 \
                                                                                                    \
+           --add       item            mode right                                                  \
+           --set       mode            "${mode[@]}"                                                \
+                                                                                                   \
            --add       item            brew right                                                  \
            --set       brew            "${brew[@]}"                                                \
            --add       event           brew_update                                                 \
@@ -131,9 +145,6 @@ sketchybar --hotload                   on                                       
            --set       keylayout       "${keylayout[@]}"                                           \
            --add       event           input_change "AppleSelectedInputSourcesChangedNotification" \
            --subscribe keylayout       input_change                                                \
-                                                                                                   \
-           --add       item            mode right                                                  \
-           --set       mode            "${mode[@]}"                                                \
                                                                                                    \
            --add       item            spotify e                                                   \
            --set       spotify         "${spotify[@]}"                                             \

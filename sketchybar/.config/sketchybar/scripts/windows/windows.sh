@@ -33,16 +33,17 @@ render_windows() {
     ID=${props[0]}
     APP=${props[1]}
     INDEX=${props[2]}
-    STACK_PADDING=$( [[ $INDEX -lt 2 ]] && echo $PADDING || echo -$(($PADDING + 2)) )
+    STACK_PADDING=$( [[ $INDEX -lt 2 ]] && echo $PADDING || echo -$PADDING )
     PADDING_LEFT=$( (( i == 0 )) && echo 0 || echo $STACK_PADDING )
 
     __icon_map "${APP}"
     __terminal_map "${APP}" "${ID}"
 
-    sketchybar --add        item        window.$ID left                        \
-               --set        window.$ID  icon="${icon_result}"                  \
-                                        background.padding_left=$PADDING_LEFT  \
-                                        label.drawing=off
+    sketchybar --add item       window.$ID left                                \
+               --set window.$ID icon="${icon_result}"                          \
+                                       background.padding_left=$PADDING_LEFT   \
+                                       background.color=$COLOR_ICON_BACKGROUND \
+                                       label.drawing=off
   done
 
   sketchybar --add bracket windows '/window\..*/'

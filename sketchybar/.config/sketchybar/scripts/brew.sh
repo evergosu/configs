@@ -13,5 +13,5 @@ case "$COUNT" in
   0)          COLOR=$COLOR_BREW_ZERO; DRAWING=off ;;
 esac
 
-sketchybar --set $NAME icon.color=$COLOR icon.drawing=$DRAWING
+sketchybar --set $NAME icon.color=$COLOR drawing=$DRAWING
 
