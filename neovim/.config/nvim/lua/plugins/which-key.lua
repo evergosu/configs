@@ -6,10 +6,12 @@ return {
     vim.o.timeoutlen = 300
   end,
   opts = {
-    window = {
+    win = {
       border = 'double',
+      title = false,
     },
     icons = {
+      mappings = false,
       breadcrumb = '',
       separator = '',
       group = '',

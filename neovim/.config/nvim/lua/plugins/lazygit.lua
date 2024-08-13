@@ -2,9 +2,7 @@ return {
   'kdheepak/lazygit.nvim',
   event = 'VeryLazy',
   keys = function()
-    require('which-key').register({
-      ['<leader>g'] = { name = 'git' },
-    })
+    require('which-key').add({ '<leader>g', group = 'git' })
 
     return {
       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'gui' },

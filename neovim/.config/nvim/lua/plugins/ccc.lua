@@ -1,9 +1,7 @@
 return {
   'uga-rosa/ccc.nvim',
   keys = function()
-    require('which-key').register({
-      ['<leader>P'] = { name = 'picker' },
-    })
+    require('which-key').add({ '<leader>P', group = 'picker' })
 
     return {
       { '<leader>Pp', '<cmd>CccPick<cr>', desc = 'pick' },

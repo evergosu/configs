@@ -1,9 +1,7 @@
 return {
   'ThePrimeagen/harpoon',
   keys = function()
-    require('which-key').register({
-      ['<leader>h'] = { name = 'harpoon' },
-    })
+    require('which-key').add({ '<leader>h', group = 'harpoon' })
 
     return {
       { '<leader>ht', '<cmd>lua require("harpoon.ui").toggle_quick_menu() <cr>', desc = 'toggle' },

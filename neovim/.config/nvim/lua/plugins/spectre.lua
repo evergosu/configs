@@ -5,9 +5,7 @@ return {
   },
   cmd = 'Spectre',
   keys = function()
-    require('which-key').register({
-      ['<leader>s'] = { name = 'search' },
-    })
+    require('which-key').add({ '<leader>s', group = 'search' })
 
     return {
       {

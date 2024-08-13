@@ -1,30 +1,28 @@
 local function common_attach(_, bufnr)
-  require('which-key').register({
-    ['<leader>l'] = { name = 'lsp' },
-  }, { buffer = bufnr })
+  require('which-key').add({ '<leader>l', group = 'lsp' }, { buffer = bufnr })
 
   local set = vim.keymap.set
 
   local TB = require('telescope.builtin')
 
   -- stylua: ignore start
-  set('n', ']]',         vim.diagnostic.goto_prev,                          { buffer = bufnr, desc = 'Prev diagnostic' })
-  set('n', '[[',         vim.diagnostic.goto_next,                          { buffer = bufnr, desc = 'Next diagnostic' })
-  set('n', 'K',          vim.lsp.buf.hover,                                 { buffer = bufnr, desc = 'keyword hover' })
-  set('n', '<A-k>',      vim.lsp.buf.signature_help,                        { buffer = bufnr, desc = 'keyword signature' })
-  set('n', '<leader>la', vim.lsp.buf.code_action,                           { buffer = bufnr, desc = 'actions' })
-  set('n', '<leader>ld', TB.lsp_definitions,                                { buffer = bufnr, desc = 'definitions' })
-  set('n', '<leader>lD', vim.lsp.buf.declaration,                           { buffer = bufnr, desc = 'declaration' })
-  set('n', '<leader>lf', vim.diagnostic.open_float,                         { buffer = bufnr, desc = 'float diagnostic' })
-  set('n', '<leader>lh', function () vim.lsp.inlay_hint(bufnr) end,         { buffer = bufnr, desc = 'toggle inlay hints' })
-  set('n', '<leader>li', TB.lsp_implementations,                            { buffer = bufnr, desc = 'implementations' })
-  set('n', '<leader>lr', vim.lsp.buf.rename,                                { buffer = bufnr, desc = 'rename' })
-  set('n', '<leader>lR', TB.lsp_references,                                 { buffer = bufnr, desc = 'references' })
-  set('n', '<leader>ls', TB.lsp_document_symbols,                           { buffer = bufnr, desc = 'document symbols' })
-  set('n', '<leader>lS', TB.lsp_dynamic_workspace_symbols,                  { buffer = bufnr, desc = 'workspace symbols' })
-  set('n', '<leader>lT', TB.lsp_type_definitions,                           { buffer = bufnr, desc = 'type definitions' })
-  set('n', 'gL', function() vim.cmd([[call setqflist([], 'r')]]) end,       { buffer = bufnr, desc = 'clear quickfix list' })
-  set('n', 'gl', function() vim.diagnostic.setqflist({ open = false }) end, { buffer = bufnr, desc = 'fill quickfix list' })
+  set('n', ']]', function() vim.diagnostic.jump({ count = -1, float = true }) end, { buffer = bufnr, desc = 'Prev diagnostic' })
+  set('n', '[[', function() vim.diagnostic.jump({ count = 1, float = true }) end,  { buffer = bufnr, desc = 'Next diagnostic' })
+  set('n', 'K',          vim.lsp.buf.hover,                                        { buffer = bufnr, desc = 'keyword hover' })
+  set('n', '<A-k>',      vim.lsp.buf.signature_help,                               { buffer = bufnr, desc = 'keyword signature' })
+  set('n', '<leader>la', vim.lsp.buf.code_action,                                  { buffer = bufnr, desc = 'actions' })
+  set('n', '<leader>ld', TB.lsp_definitions,                                       { buffer = bufnr, desc = 'definitions' })
+  set('n', '<leader>lD', vim.lsp.buf.declaration,                                  { buffer = bufnr, desc = 'declaration' })
+  set('n', '<leader>lf', vim.diagnostic.open_float,                                { buffer = bufnr, desc = 'float diagnostic' })
+  set('n', '<leader>lh', function () vim.lsp.inlay_hint(bufnr) end,                { buffer = bufnr, desc = 'toggle inlay hints' })
+  set('n', '<leader>li', TB.lsp_implementations,                                   { buffer = bufnr, desc = 'implementations' })
+  set('n', '<leader>lr', vim.lsp.buf.rename,                                       { buffer = bufnr, desc = 'rename' })
+  set('n', '<leader>lR', TB.lsp_references,                                        { buffer = bufnr, desc = 'references' })
+  set('n', '<leader>ls', TB.lsp_document_symbols,                                  { buffer = bufnr, desc = 'document symbols' })
+  set('n', '<leader>lS', TB.lsp_dynamic_workspace_symbols,                         { buffer = bufnr, desc = 'workspace symbols' })
+  set('n', '<leader>lT', TB.lsp_type_definitions,                                  { buffer = bufnr, desc = 'type definitions' })
+  set('n', 'gL', function() vim.cmd([[call setqflist([], 'r')]]) end,              { buffer = bufnr, desc = 'clear quickfix list' })
+  set('n', 'gl', function() vim.diagnostic.setqflist({ open = false }) end,        { buffer = bufnr, desc = 'fill quickfix list' })
   -- stylua: ignore end
 end
 

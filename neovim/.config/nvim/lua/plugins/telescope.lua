@@ -12,9 +12,7 @@ return {
     cmd = 'Telescope',
     lazy = true,
     keys = function()
-      require('which-key').register({
-        ['<leader>f'] = { name = 'find' },
-      })
+      require('which-key').add({ '<leader>f', group = 'find' })
 
       return {
         -- stylua: ignore start
@@ -38,7 +36,7 @@ return {
       local TA = require('telescope.actions')
       local TLA = require('telescope.actions.layout')
       local TUA = require('telescope-undo.actions')
-      local trouble = require('trouble.providers.telescope')
+      local telescope = require('trouble.sources.telescope')
 
       -- Lazygit loads at start and does not support lazy loading anyway.
       -- But this setup enables lazy loading for telescope itself.
@@ -64,7 +62,7 @@ return {
               ['<S-CR>'] = TA.select_vertical,
               ['<C-CR>'] = TA.select_horizontal,
 
-              ['<C-t>'] = trouble.open_with_trouble,
+              ['<C-t>'] = telescope.open,
               ['<C-l>'] = function(...)
                 TA.smart_send_to_qflist(...)
                 TB.quickfix()

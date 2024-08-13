@@ -20,9 +20,7 @@ return {
     win_config = { border = 'double' },
   },
   keys = function()
-    require('which-key').register({
-      ['<leader>t'] = { name = 'trouble' },
-    })
+    require('which-key').add({ '<leader>t', group = 'trouble' })
 
     return {
       { 'gr', '<cmd>TroubleToggle lsp_references<cr>', desc = '[LSP]: references' },
