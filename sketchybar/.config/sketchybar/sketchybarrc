@@ -37,7 +37,7 @@ defaults=(
 
 apps=(
   updates=on
-  script="$SCRIPTS/windows/windows.sh"
+  script="$SCRIPTS/windows.sh"
   drawing=off
 )
 

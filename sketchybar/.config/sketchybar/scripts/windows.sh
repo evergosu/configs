@@ -2,17 +2,21 @@
 
 source "$HOME/.config/sketchybar/properties.sh"
 source "$HOME/.config/sketchybar/scripts/icons.sh"
-source "$HOME/.config/sketchybar/scripts/windows/terminal_map.sh"
 
 highlight_current_window() {
   WINDOWS=($(sketchybar --query windows | jq -rec ".bracket | @sh" | tr -d \'))
-  CURRENT_ID=$(yabai -m query --windows --window | jq .id)
+  APP=$(yabai -m query --windows --window | jq -rec .app)
+  ID=$(yabai -m query --windows --window | jq .id)
 
   for ((i=0; i<${#WINDOWS[@]}; i+=1)); do
-    COLOR=$([[ ${WINDOWS[$i]} == "window.$CURRENT_ID" ]] && echo $COLOR_ICON_HIGHLIGHT || echo $COLOR_ICON)
+    COLOR=$([[ ${WINDOWS[$i]} == "window.$ID" ]] && echo $COLOR_ICON_HIGHLIGHT || echo $COLOR_ICON)
 
     sketchybar --animate tanh 5 --set ${WINDOWS[$i]} icon.color=$COLOR
   done
+
+  __icon_map "${APP}" "${ID}"
+
+  sketchybar --set window.$ID icon="${icon_result}"
 }
 
 render_windows() {
@@ -36,8 +40,7 @@ render_windows() {
     STACK_PADDING=$( [[ $INDEX -lt 2 ]] && echo $PADDING || echo -$PADDING )
     PADDING_LEFT=$( (( i == 0 )) && echo 0 || echo $STACK_PADDING )
 
-    __icon_map "${APP}"
-    __terminal_map "${APP}" "${ID}"
+    __icon_map "${APP}" "${ID}"
 
     sketchybar --add item       window.$ID left                                \
                --set window.$ID icon="${icon_result}"                          \

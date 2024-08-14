@@ -60,13 +60,28 @@ function __icon_map() {
         icon_result=
         ;;
    "Chromium" | "Google Chrome" | "Google Chrome Canary")
-        icon_result=' '
+        icon_result=
+
+        case $(yabai -m query --windows --window "$2" | jq -rc '.title') in
+          *"Twitch"*)
+            icon_result=
+            ;;
+          *"YouTube"*)
+            icon_result=
+            ;;
+        esac
         ;;
    "Keylayout")
         icon_result=󰌌
         ;;
    "kitty")
         icon_result=
+
+        case $(yabai -m query --windows --window "$2" | jq -rc '.title') in
+          "Neovim" | "neovim" | "nvim"*)
+            icon_result=
+            ;;
+        esac
         ;;
    "Mail")
         icon_result=
