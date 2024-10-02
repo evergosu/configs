@@ -51,6 +51,7 @@ opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 50
+opt.viewoptions = 'folds'
 opt.wildmode = 'longest:full,full'
 opt.winminwidth = 5
 opt.wrap = false
