@@ -44,6 +44,7 @@ opt.spelllang = { 'en' }
 opt.splitbelow = true
 opt.splitkeep = 'screen'
 opt.splitright = true
+opt.statuscolumn = "%s%=%{&nu?(&rnu && v:relnum?v:relnum:v:lnum):''} %C"
 opt.swapfile = false
 opt.tabstop = 2
 opt.termguicolors = true
