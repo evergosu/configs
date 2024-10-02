@@ -1,7 +1,7 @@
 return {
   'folke/trouble.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  cmd = { 'TroubleToggle', 'Trouble' },
+  cmd = { 'Trouble' },
   opts = {
     action_keys = {
       open_vsplit = { '<s-cr>' },
@@ -20,15 +20,15 @@ return {
     win_config = { border = 'double' },
   },
   keys = function()
-    require('which-key').add({ '<leader>t', group = 'trouble' })
+    require('which-key').add({ '<leader>T', group = 'trouble' })
 
     return {
-      { 'gr', '<cmd>TroubleToggle lsp_references<cr>', desc = '[LSP]: references' },
-      { 'gd', '<cmd>TroubleToggle lsp_definitions<cr>', desc = '[LSP]: definitions' },
-      { 'gt', '<cmd>TroubleToggle lsp_type_definitions<cr>', desc = '[LSP]: type definitions' },
-      { '<leader>tt', '<cmd>TroubleToggle document_diagnostics<cr>', desc = 'diagnostics' },
-      { '<leader>tl', '<cmd>TroubleToggle loclist<cr>', desc = 'location list' },
-      { '<leader>tq', '<cmd>TroubleToggle quickfix<cr>', desc = 'quickfix list' },
+      { 'gr', '<cmd>Trouble lsp_references toggle<cr>', desc = '[LSP]: references' },
+      { 'gd', '<cmd>Trouble lsp_definitions toggle<cr>', desc = '[LSP]: definitions' },
+      { 'gt', '<cmd>Trouble lsp_type_definitions toggle<cr>', desc = '[LSP]: type definitions' },
+      { '<leader>Tt', '<cmd>Trouble diagnostics toggle<cr>', desc = 'diagnostics' },
+      { '<leader>Tl', '<cmd>Trouble loclist toggle<cr>', desc = 'location list' },
+      { '<leader>Tq', '<cmd>Trouble quickfix toggle<cr>', desc = 'quickfix list' },
       {
         '<C-l>',
         function()
@@ -47,7 +47,6 @@ return {
         '<CA-l>',
         function()
           if require('trouble').is_open() then
-            require('trouble').previous({ skip_groups = true, jump = true })
           else
             local ok = pcall(vim.cmd.cprev)
             if not ok then
