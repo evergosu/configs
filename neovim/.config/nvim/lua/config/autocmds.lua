@@ -70,9 +70,17 @@ vim.api.nvim_create_autocmd({ 'VimResized' }, {
 vim.api.nvim_create_autocmd('FileType', {
   group = augroup('close_with_q'),
   pattern = {
-    'spectre_panel',
+    'checkhealth',
+    'gitsigns.blame',
+    'grug-far',
     'help',
+    'lspinfo',
     'man',
+    'neotest-output',
+    'neotest-output-panel',
+    'neotest-summary',
+    'qf',
+    'spectre_panel',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
