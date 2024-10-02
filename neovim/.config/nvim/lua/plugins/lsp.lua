@@ -6,15 +6,16 @@ local function common_attach(_, bufnr)
   local TB = require('telescope.builtin')
 
   -- stylua: ignore start
-  set('n', ']]', function() vim.diagnostic.jump({ count = -1, float = true }) end, { buffer = bufnr, desc = 'Prev diagnostic' })
-  set('n', '[[', function() vim.diagnostic.jump({ count = 1, float = true }) end,  { buffer = bufnr, desc = 'Next diagnostic' })
+  set('n', ']]', function() vim.diagnostic.goto_prev() end,                        { buffer = bufnr, desc = 'Prev diagnostic' })
+  set('n', '[[', function() vim.diagnostic.goto_next() end,                        { buffer = bufnr, desc = 'Next diagnostic' })
   set('n', 'K',          vim.lsp.buf.hover,                                        { buffer = bufnr, desc = 'keyword hover' })
   set('n', '<A-k>',      vim.lsp.buf.signature_help,                               { buffer = bufnr, desc = 'keyword signature' })
   set('n', '<leader>la', vim.lsp.buf.code_action,                                  { buffer = bufnr, desc = 'actions' })
   set('n', '<leader>ld', TB.lsp_definitions,                                       { buffer = bufnr, desc = 'definitions' })
   set('n', '<leader>lD', vim.lsp.buf.declaration,                                  { buffer = bufnr, desc = 'declaration' })
   set('n', '<leader>lf', vim.diagnostic.open_float,                                { buffer = bufnr, desc = 'float diagnostic' })
-  set('n', '<leader>lh', function () vim.lsp.inlay_hint(bufnr) end,                { buffer = bufnr, desc = 'toggle inlay hints' })
+  set('n', '<leader>lh', function ()
+               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { buffer = bufnr, desc = 'toggle inlay hints' })
   set('n', '<leader>li', TB.lsp_implementations,                                   { buffer = bufnr, desc = 'implementations' })
   set('n', '<leader>lr', vim.lsp.buf.rename,                                       { buffer = bufnr, desc = 'rename' })
   set('n', '<leader>lR', TB.lsp_references,                                        { buffer = bufnr, desc = 'references' })
@@ -99,7 +100,7 @@ return {
           'lua_ls',
           'rust_analyzer',
           'stylelint_lsp',
-          'tsserver',
+          'ts_ls',
         },
       })
 
@@ -236,10 +237,10 @@ return {
             },
           })
         end,
-        tsserver = function()
+        ts_ls = function()
           require('typescript-tools').setup({
             on_attach = function(_, bufnr)
-              vim.lsp.inlay_hint(bufnr, true)
+              vim.lsp.inlay_hint.enable(true, { bufnr })
 
               common_attach(_, bufnr)
 
@@ -306,6 +307,9 @@ return {
             settings = {
               -- Potentially helps with monorepos, but can lead to unpredicted results.
               workingDirectory = { mode = 'auto' },
+              experimental = {
+                useFlatConfig = true,
+              },
             },
           })
         end,
