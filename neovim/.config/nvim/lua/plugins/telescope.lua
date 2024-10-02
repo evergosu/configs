@@ -85,7 +85,7 @@ return {
           quickfix = { previewer = false, theme = 'dropdown' },
           quickfixhistory = { previewer = false, theme = 'dropdown' },
           git_files = { previewer = false, theme = 'dropdown', hidden = true },
-          find_files = { previewer = false, theme = 'dropdown', hidden = true },
+          find_files = { previewer = false, theme = 'dropdown' },
           buffers = {
             mappings = {
               i = {
