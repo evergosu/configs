@@ -22,8 +22,10 @@ local function common_attach(_, bufnr)
   set('n', '<leader>ls', TB.lsp_document_symbols,                                  { buffer = bufnr, desc = 'document symbols' })
   set('n', '<leader>lS', TB.lsp_dynamic_workspace_symbols,                         { buffer = bufnr, desc = 'workspace symbols' })
   set('n', '<leader>lT', TB.lsp_type_definitions,                                  { buffer = bufnr, desc = 'type definitions' })
-  set('n', 'gL', function() vim.cmd([[call setqflist([], 'r')]]) end,              { buffer = bufnr, desc = 'clear quickfix list' })
-  set('n', 'gl', function() vim.diagnostic.setqflist({ open = false }) end,        { buffer = bufnr, desc = 'fill quickfix list' })
+  set('n', 'gl', function() vim.diagnostic.setqflist({ open = false })
+                            vim.cmd('Trouble quickfix open') end,                  { buffer = bufnr, desc = 'fill quickfix list' })
+  set('n', 'gL', function() vim.cmd([[call setqflist([], 'r')]])
+                            vim.cmd('Trouble quickfix close') end,                 { buffer = bufnr, desc = 'clear quickfix list' })
   -- stylua: ignore end
 end
 
