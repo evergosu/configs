@@ -26,6 +26,7 @@ return {
       { 'gr', '<cmd>Trouble lsp_references toggle<cr>', desc = '[LSP]: references' },
       { 'gd', '<cmd>Trouble lsp_definitions toggle<cr>', desc = '[LSP]: definitions' },
       { 'gt', '<cmd>Trouble lsp_type_definitions toggle<cr>', desc = '[LSP]: type definitions' },
+      { '<leader>TL', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', desc = 'LSP' },
       { '<leader>Tt', '<cmd>Trouble diagnostics toggle<cr>', desc = 'diagnostics' },
       { '<leader>Tl', '<cmd>Trouble loclist toggle<cr>', desc = 'location list' },
       { '<leader>Tq', '<cmd>Trouble quickfix toggle<cr>', desc = 'quickfix list' },
@@ -44,7 +45,7 @@ return {
         desc = 'Next trouble/quickfix item',
       },
       {
-        '<CA-l>',
+        '<C-L>',
         function()
           if require('trouble').is_open() then
           else
