@@ -1,5 +1,5 @@
-local vitestCommandWatch = 'yarn vitest watch'
-local vitestCommand = 'yarn vitest --run --json'
+local vitestCommandWatch = 'yarn run vitest watch'
+local vitestCommand = 'yarn run vitest run'
 
 return {
   {
@@ -9,7 +9,7 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'marilari88/neotest-vitest',
+      'evergosu/neotest-vitest',
     },
     keys = function()
       require('which-key').add({ '<leader>t', group = 'test' })
@@ -22,19 +22,20 @@ return {
         if string.match(currentFile, '%.test%.') or string.match(currentFile, '%.spec%.') then
           file = currentFile
         else
-          local testFile = vim.fn.expand('%:p:r') .. '.test.' .. vim.fn.expand('%:e')
-          local specFile = vim.fn.expand('%:p:r') .. '.spec.' .. vim.fn.expand('%:e')
+          local testFile = vim.fn.expand('%:r') .. '.test.' .. vim.fn.expand('%:e')
+          local specFile = vim.fn.expand('%:r') .. '.spec.' .. vim.fn.expand('%:e')
 
           if vim.fn.filereadable(testFile) then
             file = testFile
+            vim.cmd.edit(file)
           elseif vim.fn.filereadable(specFile) then
             file = specFile
+            vim.cmd.edit(file)
           else
             vim.notify('No nearest test files', vim.log.levels.WARN)
           end
         end
 
-        vim.cmd.edit(file)
         table.insert(opts or {}, 1, file)
         callback(opts)
         require('neotest').summary.open()
@@ -164,7 +165,11 @@ return {
         adapters = {
           require('neotest-vitest')({
             root = require('lspconfig').util.find_git_ancestor(vim.fn.expand('%')),
-            -- vitestCommand = vitestCommand,
+            vitestCommand = vitestCommand,
+            env = { CI = true },
+            typecheck = {
+              enabled = true,
+            },
           }),
         },
         default_strategy = 'integrated',
@@ -180,4 +185,3 @@ return {
     end,
   },
 }
-
