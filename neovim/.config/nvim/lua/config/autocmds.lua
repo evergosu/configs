@@ -88,6 +88,22 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- Quit if 'neotest-summary' is the last buffer.
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = augroup('quit_if_neotest_summary_is_last'),
+  callback = function()
+    -- Get a list of all non-hidden buffers.
+    local buffers = vim.tbl_filter(function(buf)
+      return vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted
+    end, vim.api.nvim_list_bufs())
+
+    -- If the current buffer is 'neotest-summary' and it's the only listed buffer, quit.
+    if #buffers == 1 and vim.bo.filetype == 'neotest-summary' then
+      vim.cmd('quit')
+    end
+  end,
+})
+
 -- Create intermediate directory if it does not exist when saving a file.
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   group = augroup('auto_create_dir'),

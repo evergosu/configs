@@ -1,5 +1,5 @@
 local vitestCommandWatch = 'yarn vitest watch'
-local vitestCommand = 'yarn vitest'
+local vitestCommand = 'yarn vitest --run --json'
 
 return {
   {
@@ -164,7 +164,7 @@ return {
         adapters = {
           require('neotest-vitest')({
             root = require('lspconfig').util.find_git_ancestor(vim.fn.expand('%')),
-            vitestCommand = vitestCommand,
+            -- vitestCommand = vitestCommand,
           }),
         },
         default_strategy = 'integrated',
@@ -180,3 +180,4 @@ return {
     end,
   },
 }
+
