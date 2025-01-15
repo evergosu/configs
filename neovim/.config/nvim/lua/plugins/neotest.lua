@@ -25,10 +25,10 @@ return {
           local testFile = vim.fn.expand('%:r') .. '.test.' .. vim.fn.expand('%:e')
           local specFile = vim.fn.expand('%:r') .. '.spec.' .. vim.fn.expand('%:e')
 
-          if vim.fn.filereadable(testFile) then
+          if vim.loop.fs_stat(testFile) then
             file = testFile
             vim.cmd.edit(file)
-          elseif vim.fn.filereadable(specFile) then
+          elseif vim.loop.fs_stat(specFile) then
             file = specFile
             vim.cmd.edit(file)
           else
