@@ -1,0 +1,42 @@
+[user]
+  name = evergosu
+  email = evergosu@gmail.com
+  signingkey = 56E4820886459A77
+
+[core]
+  autocrlf = false
+
+[alias]
+  wip = "!git add . && git commit -m 'WIP'"
+  rewip = "reset --soft HEAD^"
+  st = status
+  co = checkout
+  br = branch -a
+  brd = branch -d
+  ci = commit -S -m
+  ca = commit --amend --no-edit
+  last = describe --abbrev=0 --tags
+  time = rebase -i --autostash -x 'git commit --amend --no-edit'
+  lol = log --graph --date=format:'%d-%m-%y %H:%M:%S' --pretty=format:'%C(bold blue)%h% Creset%Cgreen(%cd)%Creset - %s%C(bold yellow)%d%Creset ' --abbrev-commit -10
+
+[rebase]
+  abbreviateCommands = true
+
+[color]
+  ui = true
+
+[format]
+  pretty = oneline
+
+[commit]
+  gpgsign = true
+
+[tag]
+  gpgsign = true
+
+[gpg]
+  program = /opt/homebrew/bin/gpg
+[credential]
+  helper = cache
+[pull]
+  rebase = false
