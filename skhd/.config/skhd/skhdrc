@@ -71,12 +71,14 @@ fn - o : open ~/
 fn - t : open -a kitty
 fn - d : open -a Discord
 fn - m : open -a Spotify
+fn - v : open -a Hiddify
 
 fn + shift - o : open -n ~/
 fn + shift - t : open -na kitty
 fn + shift - c : open -na "Google Chrome"
 fn + shift - d : open -na Discord
 fn + shift - m : open -na Spotify
+fn + shift - v : open -na Hiddify
 
 fn - space : sketchybar --bar hidden=toggle
 fn + shift - space : sketchybar --exit
