@@ -1,5 +1,4 @@
-local vitestCommandWatch = 'yarn run vitest watch'
-local vitestCommand = 'yarn run vitest run'
+local vitestCommand = 'pnpm vitest run'
 
 return {
   {
@@ -9,7 +8,7 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'evergosu/neotest-vitest',
+      { 'evergosu/neotest-vitest', { dir = '~/projects/neotest-vitest' } },
     },
     keys = function()
       require('which-key').add({ '<leader>t', group = 'test' })
@@ -43,16 +42,18 @@ return {
 
       return {
         {
-          '<leader>tt',
+          '<leader>tf',
           function()
             runOnTestOrNearest(require('neotest').run.run)
           end,
-          desc = 'run one',
+          desc = 'run file tests',
         },
         {
-          '<leader>tT',
+          '<leader>tt',
           function()
-            require('neotest').run.run(require('lspconfig').util.find_package_json_ancestor(vim.fn.expand('%')))
+            require('neotest').run.run(
+              vim.fs.dirname(vim.fs.find('.git', { path = vim.fn.expand('%'), upward = true })[1])
+            )
             require('neotest').summary.open()
           end,
           desc = 'run all',
@@ -60,27 +61,25 @@ return {
         {
           '<leader>tw',
           function()
-            runOnTestOrNearest(require('neotest').run.run, { vitestCommand = vitestCommandWatch })
+            require('neotest').watch.toggle(vim.fn.expand('%'))
           end,
-          desc = 'watch one',
+          desc = 'watch toggle',
         },
         {
           '<leader>tW',
           function()
-            require('neotest').run.run({
-              require('lspconfig').util.find_package_json_ancestor(vim.fn.expand('%')),
-              vitestCommand = vitestCommandWatch,
-            })
-            require('neotest').summary.open()
+            require('neotest').watch.toggle(
+              vim.fs.dirname(vim.fs.find('.git', { path = vim.fn.expand('%'), upward = true })[1])
+            )
           end,
-          desc = 'watch all',
+          desc = 'watch toggle',
         },
         {
-          '<leader>tS',
+          '<leader>ta',
           function()
             require('neotest').run.stop()
           end,
-          desc = 'stop',
+          desc = 'abort',
         },
         {
           '<leader>tl',
@@ -94,21 +93,14 @@ return {
           function()
             require('neotest').summary.toggle()
           end,
-          desc = 'summary',
+          desc = 'summary toggle',
         },
         {
           '<leader>to',
           function()
-            require('neotest').output.open()
-          end,
-          desc = 'output one',
-        },
-        {
-          '<leader>tO',
-          function()
             require('neotest').output_panel.toggle()
           end,
-          desc = 'output all',
+          desc = 'output toggle',
         },
         {
           '<leader>td',
@@ -158,15 +150,17 @@ return {
                   end
                 end
               end)
-              return {}
             end
+            return {}
           end,
         },
         adapters = {
           require('neotest-vitest')({
-            root = require('lspconfig').util.find_git_ancestor(vim.fn.expand('%')),
+            root = vim.fs.dirname(vim.fs.find('.git', { path = vim.fn.expand('%:p'), upward = true })[1]),
+            filter_dir = function(name)
+              return name ~= 'node_modules' and name ~= 'dist'
+            end,
             vitestCommand = vitestCommand,
-            env = { CI = true },
             typecheck = {
               enabled = true,
             },

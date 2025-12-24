@@ -67,3 +67,64 @@ map('n', '<CA-k>', '<cmd>e #<cr>', { desc = 'jump to last buffer' })
 map('n', '<leader>r', [[<cmd>:bd|e#|w<cr>|'"]], { desc = 'reopen buffer' })
 map('n', '<leader>c', [[<cmd>:bp|bd#<cr>]], { desc = 'close current buffer' })
 map('n', '<leader>C', [[<cmd>silent! :%bd|e#|bd#<cr>|'"]], { desc = 'close buffers except current' })
+
+-- LSP.
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(event)
+    require('which-key').add({ '<leader>l', group = 'lsp' }, { buffer = event.buf })
+
+    local set = vim.keymap.set
+    local TB = require('telescope.builtin')
+    local opts = { buffer = event.buf, silent = true }
+
+    opts.desc = 'restart lsp'
+    set('n', '<leader>lq', ':LspRestart<CR>', opts)
+    opts.desc = 'Prev diagnostic'
+    set('n', ']]', function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end, opts)
+    opts.desc = 'Next diagnostic'
+    set('n', '[[', function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end, opts)
+    opts.desc = 'keyword hover'
+    set('n', 'K', vim.lsp.buf.hover, opts)
+    opts.desc = 'keyword signature'
+    set('n', '<A-k>', vim.lsp.buf.signature_help, opts)
+    opts.desc = 'actions'
+    set('n', '<leader>la', vim.lsp.buf.code_action, opts)
+    opts.desc = 'definitions'
+    set('n', '<leader>ld', TB.lsp_definitions, opts)
+    opts.desc = 'declaration'
+    set('n', '<leader>lD', vim.lsp.buf.declaration, opts)
+    opts.desc = 'float diagnostic'
+    set('n', '<leader>lf', vim.diagnostic.open_float, opts)
+    opts.desc = 'toggle inlay hints'
+    set('n', '<leader>lh', function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end, opts)
+    opts.desc = 'implementations'
+    set('n', '<leader>li', TB.lsp_implementations, opts)
+    opts.desc = 'rename'
+    set('n', '<leader>lr', vim.lsp.buf.rename, opts)
+    opts.desc = 'references'
+    set('n', '<leader>lR', TB.lsp_references, opts)
+    opts.desc = 'document symbols'
+    set('n', '<leader>ls', TB.lsp_document_symbols, opts)
+    opts.desc = 'workspace symbols'
+    set('n', '<leader>lS', TB.lsp_dynamic_workspace_symbols, opts)
+    opts.desc = 'type definitions'
+    set('n', '<leader>lT', TB.lsp_type_definitions, opts)
+    opts.desc = 'fill quickfix list'
+    set('n', 'gl', function()
+      vim.diagnostic.setqflist({ open = false })
+      vim.cmd('Trouble quickfix open')
+    end, opts)
+    opts.desc = 'clear quickfix list'
+    set('n', 'gL', function()
+      vim.cmd([[call setqflist([], 'r')]])
+      vim.cmd('Trouble quickfix close')
+    end, opts)
+  end,
+})

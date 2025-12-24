@@ -4,13 +4,13 @@ return {
   opts = {
     search_method = 'cover_or_next',
     mappings = {
-      add = 'Sa',
-      delete = 'Sd',
-      find = 'Sf',
-      find_left = 'SF',
-      highlight = 'Sh',
-      replace = 'Sr',
-      update_n_lines = 'Sn',
+      add = 'ss',
+      delete = 'sd',
+      find = 'sf',
+      find_left = 'sF',
+      highlight = 'sh',
+      replace = 'sr',
+      update_n_lines = 'sn',
 
       suffix_last = 'l',
       suffix_next = 'n',

@@ -1,4 +1,4 @@
-local icons = {
+return {
   diagnostics = {
     Error = ' ',
     Warn = ' ',
@@ -17,10 +17,3 @@ local icons = {
     Split = ' ',
   },
 }
-
-for name, icon in pairs(icons.diagnostics) do
-  name = 'DiagnosticSign' .. name
-  vim.fn.sign_define(name, { text = icon, texthl = name, numhl = '' })
-end
-
-return icons

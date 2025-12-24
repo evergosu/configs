@@ -3,6 +3,7 @@ local opt = vim.opt
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.markdown_recommended_style = 0
+vim.o.winborder = 'double'
 
 opt.autoindent = true
 opt.autowrite = true
@@ -56,3 +57,28 @@ opt.viewoptions = 'folds'
 opt.wildmode = 'longest:full,full'
 opt.winminwidth = 5
 opt.wrap = false
+
+vim.diagnostic.config({
+  float = {
+    border = 'double',
+  },
+  severity_sort = true,
+  underline = true,
+  update_in_insert = false,
+  virtual_text = false,
+})
+
+local severity = vim.diagnostic.severity
+
+local icons = require('config.icons')
+
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [severity.ERROR] = icons.diagnostics.Error,
+      [severity.WARN] = icons.diagnostics.Warn,
+      [severity.HINT] = icons.diagnostics.Hint,
+      [severity.INFO] = icons.diagnostics.Info,
+    },
+  },
+})
