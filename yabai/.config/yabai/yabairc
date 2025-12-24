@@ -17,11 +17,9 @@ yabai -m config layout                      bsp          \
                 split_ratio 0.5                          \
                 --space 2 split_ratio 0.6
 
-yabai -m rule --add app="^(Системные настройки|Finder|App Store)$" layer=above manage=off
+yabai -m rule --add app="^(Системные настройки|Finder|Hiddify|App Store|VLC media player)$" manage=off
 yabai -m rule --add app="^(kitty|Google Chrome)$" space=1
 yabai -m rule --add app="^(Telegram|Discord)$" space=2
 yabai -m rule --add app="^(Spotify)$" space=3
 
 echo "yabai configuration loaded."
-
-
